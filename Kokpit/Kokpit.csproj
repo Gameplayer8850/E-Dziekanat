@@ -56,7 +56,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LogowanieRejestracjaRes.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\AutoryzacjaModel.cs" />
     <Compile Include="Models\LogowanieModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LogowanieRejestracjaService.cs" />

@@ -312,6 +312,10 @@
       <Project>{11cffac8-c89b-441f-b62a-af1efa3f973b}</Project>
       <Name>Kokpit</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PlanZajec\PlanZajec.csproj">
+      <Project>{01a1e990-ddd9-4912-8767-e62398713d79}</Project>
+      <Name>PlanZajec</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{99D4186E-DF2F-43CD-B88B-ED08B992299A}</Project>
       <Name>Shared</Name>

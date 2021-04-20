@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <czy_wykorzystac_connection_string>true</czy_wykorzystac_connection_string>
+  <connection_string>[CONNECTION STRING]</connection_string>
+  <nazwa_serwera>[NAZWA SERWERA]</nazwa_serwera>
+  <nazwa_bazy>[NAZWA BAZY]</nazwa_bazy>
+  <login>[LOGIN]</login>
+  <haslo>[HASŁO]</haslo>
+  <dodatkowe_ustawienia>[DODATKOWE USTAWIENIA]</dodatkowe_ustawienia>
+</Config>

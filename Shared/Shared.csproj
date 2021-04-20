@@ -43,10 +43,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BazaDanych\BdPolaczenie.cs" />
+    <Compile Include="Dane\Uzytkownik\DaneUzytkownikaRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DaneUzytkownikaRes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Autoryzacja\AutoryzacjaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XML\Config.cs" />
     <Compile Include="XML\XMLop.cs" />
     <Compile Include="Zarzadzanie.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Dane\Uzytkownik\DaneUzytkownikaRes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DaneUzytkownikaRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

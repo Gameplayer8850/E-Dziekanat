@@ -22,6 +22,7 @@ namespace E_Dziekanat
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //umo¿liwia korzystanie z kontorlerów z innych bibliotek
             ControllerBuilder.Current.DefaultNamespaces.Add("Kokpit.Controllers");
+            ControllerBuilder.Current.DefaultNamespaces.Add("PlanZajec.Controllers");
             //pobiera dane z config.xml i nawi¹zuje po³¹czenie
             Zarzadzanie.NawiazPolaczenieBaza();
         }
