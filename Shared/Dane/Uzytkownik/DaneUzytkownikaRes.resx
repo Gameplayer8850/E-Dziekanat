@@ -117,11 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="sqlCmdAutoryzacja" xml:space="preserve">
-    <value>select top 1 uzytkownicy.id_uzytkownika from loginy
-left join uzytkownicy on loginy.id_loginu=uzytkownicy.id_loginu
-left join dane_osobowe on uzytkownicy.id_danych_osobowych = dane_osobowe.id_danych_osobowych
-left join role on role.id_roli=dane_osobowe.id_roli
-where loginy.login=@login and hash_hasla=@password and kod_roli=@kod_roli</value>
+  <data name="sqlCmdZwrocIdGrupyUzytkownika" xml:space="preserve">
+    <value>select top 1 id_grupy from uzytkownicy
+left join dane_osobowe on uzytkownicy.id_danych_osobowych=dane_osobowe.id_danych_osobowych
+where id_uzytkownika=@id_uzytkownika</value>
   </data>
 </root>

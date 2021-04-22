@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kokpit.Models
+namespace Shared.Models.Autoryzacja
 {
     public class AutoryzacjaModel
     {
-        public int id_uzytkownika { get; set; }
-        public string kod_roli { get; set; }
+        public int Id_uzytkownika { get; set; }
+        public string Kod_roli { get; set; }
     }
 }

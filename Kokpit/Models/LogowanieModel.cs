@@ -8,7 +8,8 @@ namespace Kokpit.Models
 {
     public class LogowanieModel
     {
-        public string login { get; set; }
-        public string password { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string Kod_roli { get; set; }
     }
 }
