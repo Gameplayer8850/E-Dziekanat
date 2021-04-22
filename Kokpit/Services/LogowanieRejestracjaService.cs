@@ -17,13 +17,7 @@ namespace Kokpit.Services
     {
         public AutoryzacjaModel Autoryzuj(LogowanieModel model)
         {
-            byte[] hashByte = new SHA256Managed().ComputeHash(Encoding.UTF8.GetBytes(model.Password));
-            var hash = new System.Text.StringBuilder();
-            foreach (byte x in hashByte)
-            {
-                hash.Append(x.ToString("x2"));
-            }
-            string passwordHash = hash.ToString();
+            string passwordHash = KonwertujNaHash(model.Password);
 
             SqlCommand command = new SqlCommand(LogowanieRejestracjaRes.ResourceManager.GetString("sqlCmdAutoryzacja"));
             command.Parameters.Add(new SqlParameter("login", model.Login));
@@ -37,6 +31,16 @@ namespace Kokpit.Services
                     Kod_roli = model.Kod_roli 
                 };
             else return null;
+        }
+        public string KonwertujNaHash(string slowo)
+        {
+            byte[] hashByte = new SHA256Managed().ComputeHash(Encoding.UTF8.GetBytes(slowo));
+            var hash = new System.Text.StringBuilder();
+            foreach (byte x in hashByte)
+            {
+                hash.Append(x.ToString("x2"));
+            }
+            return hash.ToString();
         }
     }
 }
