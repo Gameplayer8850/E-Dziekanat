@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Shared.Dane.Uzytkownik {
+namespace PlanZajec.Dane {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace Shared.Dane.Uzytkownik {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class DaneUzytkownikaRes {
+    internal class PlanZajecRes {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DaneUzytkownikaRes() {
+        internal PlanZajecRes() {
         }
         
         /// <summary>
         /// Zwraca buforowane wystąpienie ResourceManager używane przez tę klasę.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Shared.Dane.Uzytkownik.DaneUzytkownikaRes", typeof(DaneUzytkownikaRes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PlanZajec.Dane.PlanZajecRes", typeof(PlanZajecRes).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Shared.Dane.Uzytkownik {
         ///   przypadków przeszukiwania zasobów za pomocą tej klasy zasobów wymagającej zdefiniowania typu.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,25 +61,15 @@ namespace Shared.Dane.Uzytkownik {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top 1 id_grupy, id_semestru from uzytkownicy
-        ///left join dane_osobowe on uzytkownicy.id_danych_osobowych=dane_osobowe.id_danych_osobowych
-        ///where id_uzytkownika=@id_uzytkownika.
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select godz_rozp, godz_zakon, nazwa, typ, imie, nazwisko, opis, link_do_kursu, dodatkowe_materialy, ilosc_godzin, ects from plan_zajec
+        ///left join przedmioty on przedmioty.id_przedmiotu=plan_zajec.id_przedmiotu
+        ///left join przedmiot_informacje on przedmioty.id_informacji_przedmiotu=przedmiot_informacje.id_informacji_przedmiotu
+        ///left join dane_osobowe on dane_osobowe.id_danych_osobowych=przedmioty.id_wykladowcy
+        ///where dzien=@dzien and przedmioty.id_semestru=@id_semestru and (przedmioty.id_grupy is NULL or prze [obcięto pozostałą część ciągu]&quot;;.
         /// </summary>
-        public static string sqlCmdZwrocIdGrupyUzytkownika {
+        internal static string sqlCmdZwrocPlanDlaGrupy {
             get {
-                return ResourceManager.GetString("sqlCmdZwrocIdGrupyUzytkownika", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top 1 tryb from uzytkownicy
-        ///left join dane_osobowe on uzytkownicy.id_danych_osobowych=dane_osobowe.id_danych_osobowych
-        ///left join semestry on dane_osobowe.id_semestru=semestry.id_semestru
-        ///where id_uzytkownika=@id_uzytkownika.
-        /// </summary>
-        public static string sqlCmdZwrocTrybStudiowUzytkownika {
-            get {
-                return ResourceManager.GetString("sqlCmdZwrocTrybStudiowUzytkownika", resourceCulture);
+                return ResourceManager.GetString("sqlCmdZwrocPlanDlaGrupy", resourceCulture);
             }
         }
     }

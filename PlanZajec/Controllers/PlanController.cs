@@ -1,4 +1,5 @@
 ﻿using PlanZajec.Models;
+using PlanZajec.Services;
 using Shared.Models.Autoryzacja;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,13 @@ namespace PlanZajec.Controllers
     [RoutePrefix("api/plan")]
     public class PlanController : ApiController
     {
-        [Route("aktualny_plan/{autoryzacja}")]
-        [HttpGet]
-        public PlanTygodniaModel AktualnyPlan(AutoryzacjaModel autoryzacja)
+        //[Route("aktualny_plan/{autoryzacja}")]
+        //[HttpGet]
+        [Route("aktualny_plan")]
+        [HttpPost]
+        public PlanTygodniaModel AktualnyPlan([FromBody] AutoryzacjaModel autoryzacja)
         {
-            return new PlanTygodniaModel();
+            return (new  PlanService()).AktualnyPlan(autoryzacja.Id_uzytkownika, autoryzacja.Kod_roli);
         }
     }
 }
