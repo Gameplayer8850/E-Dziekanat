@@ -61,15 +61,28 @@ namespace PlanZajec.Dane {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select godz_rozp, godz_zakon, nazwa, typ, imie, nazwisko, opis, link_do_kursu, dodatkowe_materialy, ilosc_godzin, ects from plan_zajec
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select godz_rozp, godz_zakon, przedmiot_informacje.nazwa, typ, imie, nazwisko, opis, link_do_kursu, dodatkowe_materialy, ilosc_godzin, ects, numer_semestru, grupy.nazwa from plan_zajec
         ///left join przedmioty on przedmioty.id_przedmiotu=plan_zajec.id_przedmiotu
         ///left join przedmiot_informacje on przedmioty.id_informacji_przedmiotu=przedmiot_informacje.id_informacji_przedmiotu
         ///left join dane_osobowe on dane_osobowe.id_danych_osobowych=przedmioty.id_wykladowcy
-        ///where dzien=@dzien and przedmioty.id_semestru=@id_semestru and (przedmioty.id_grupy is NULL or prze [obcięto pozostałą część ciągu]&quot;;.
+        ///left join semestry on przedmioty.id_semestru=seme [obcięto pozostałą część ciągu]&quot;;.
         /// </summary>
         internal static string sqlCmdZwrocPlanDlaGrupy {
             get {
                 return ResourceManager.GetString("sqlCmdZwrocPlanDlaGrupy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select godz_rozp, godz_zakon, przedmiot_informacje.nazwa, typ, imie, nazwisko, opis, link_do_kursu, dodatkowe_materialy, ilosc_godzin, ects, numer_semestru, grupy.nazwa from plan_zajec
+        ///left join przedmioty on przedmioty.id_przedmiotu=plan_zajec.id_przedmiotu
+        ///left join przedmiot_informacje on przedmioty.id_informacji_przedmiotu=przedmiot_informacje.id_informacji_przedmiotu
+        ///left join dane_osobowe on dane_osobowe.id_danych_osobowych=przedmioty.id_wykladowcy
+        ///left join semestry on przedmioty.id_semestru=seme [obcięto pozostałą część ciągu]&quot;;.
+        /// </summary>
+        internal static string sqlCmdZwrocPlanWykladowcy {
+            get {
+                return ResourceManager.GetString("sqlCmdZwrocPlanWykladowcy", resourceCulture);
             }
         }
     }

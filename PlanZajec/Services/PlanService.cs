@@ -18,13 +18,13 @@ namespace PlanZajec.Services
     {
         public PlanTygodniaModel AktualnyPlan(int id_uzytkownika, string kod_roli)
         {
-            if(kod_roli=="student")
+            DateTime data = DateTime.Now;
+            if (kod_roli == "student")
             {
                 char tryb = (new DaneUzytkownikaService()).ZwrocTrybStudiowUzytkownika(id_uzytkownika);
-                DateTime data = DateTime.Now;
                 if (tryb == 'S')
                 {
-                    if(data.DayOfWeek==DayOfWeek.Saturday || data.DayOfWeek == DayOfWeek.Sunday)
+                    if (data.DayOfWeek == DayOfWeek.Saturday || data.DayOfWeek == DayOfWeek.Sunday)
                     {
                         do
                         {
@@ -34,7 +34,7 @@ namespace PlanZajec.Services
                     data = data.AddDays(-((int)data.DayOfWeek - 1));
                     return PlanNaTydzienStudent(data, data.AddDays(4), id_uzytkownika);
                 }
-                else if(tryb == 'Z')
+                else if (tryb == 'Z')
                 {
                     if (data.DayOfWeek != DayOfWeek.Saturday && data.DayOfWeek != DayOfWeek.Sunday)
                     {
@@ -47,6 +47,18 @@ namespace PlanZajec.Services
                     return PlanNaTydzienStudent(data, data.AddDays(1), id_uzytkownika);
                 }
                 return null;
+            }
+            else if (kod_roli == "wykladowca")
+            {
+                if (data.DayOfWeek == DayOfWeek.Saturday || data.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    do
+                    {
+                        data = data.AddDays(1);
+                    } while (data.DayOfWeek == DayOfWeek.Sunday);
+                }
+                data = data.AddDays(-((int)data.DayOfWeek - 1));
+                return PlanNaTydzienWykladowca(data, data.AddDays(6), id_uzytkownika); 
             }
             return null;
         }
@@ -68,13 +80,39 @@ namespace PlanZajec.Services
                 Tydzien = tydzien
             };
         }
+        public PlanTygodniaModel PlanNaTydzienWykladowca(DateTime dataOd, DateTime dataDo, int id_uzytkownika)
+        {
+            List<PlanDniaModel> tydzien = new List<PlanDniaModel>();
+
+            for (int i = 0; i < (dataDo - dataOd).TotalDays + 1; i++)
+            {
+                tydzien.Add(PlanNaDzienWykladowca(dataOd.AddDays(i), id_uzytkownika));
+            }
+            return new PlanTygodniaModel
+            {
+                DataOd = dataOd,
+                DataDo = dataDo,
+                Tydzien = tydzien
+            };
+        }
         public PlanDniaModel PlanNaDzienStudent(DateTime dzien, int id_semestru, int id_grupy)
         {
             SqlCommand command = new SqlCommand(PlanZajecRes.ResourceManager.GetString("sqlCmdZwrocPlanDlaGrupy"));
             command.Parameters.Add(new SqlParameter("id_semestru", id_semestru));
             command.Parameters.Add(new SqlParameter("id_grupy", id_grupy));
             command.Parameters.Add(new SqlParameter("dzien", dzien.ToString("MM/dd/yyyy")));
-            DataTable dt = BdPolaczenie.ZwrocDane(command);
+            return KonwertujDoObiektuPlanDnia(BdPolaczenie.ZwrocDane(command), dzien);
+        }
+        public PlanDniaModel PlanNaDzienWykladowca(DateTime dzien, int id_uzytkownika)
+        {
+            SqlCommand command = new SqlCommand(PlanZajecRes.ResourceManager.GetString("sqlCmdZwrocPlanWykladowcy"));
+            command.Parameters.Add(new SqlParameter("dzien", dzien.ToString("MM/dd/yyyy")));
+            command.Parameters.Add(new SqlParameter("id_uzytkownika", id_uzytkownika));
+            return KonwertujDoObiektuPlanDnia(BdPolaczenie.ZwrocDane(command), dzien);
+        }
+
+        public PlanDniaModel KonwertujDoObiektuPlanDnia(DataTable dt, DateTime dzien)
+        {
             if (dt != null && dt.Rows.Count > 0)
             {
                 List<ZajecieModel> zajecia = new List<ZajecieModel>();
@@ -95,7 +133,9 @@ namespace PlanZajec.Services
                             LinkDoKursu = Convert.ToString(dr[7]),
                             DodatkoweMaterialy = Convert.ToString(dr[8]),
                             IloscGodzin = Convert.ToInt32(dr[9]),
-                            Ects = Convert.ToInt32(dr[10])
+                            Ects = Convert.ToInt32(dr[10]),
+                            NumerSemestru = Convert.ToInt32(dr[11]),
+                            NazwaGrupy = Convert.ToString(dr[12])
                         });
                     }
                     catch (Exception)
@@ -114,6 +154,13 @@ namespace PlanZajec.Services
                 Dzien = dzien,
                 Zajecia = null
             };
+        }
+
+        public PlanTygodniaModel ZwrocPlanUzytkownika(DateTime dataOd, DateTime dataDo, int id_uzytkownika, string kod_roli)
+        {
+            if (kod_roli == "student") return PlanNaTydzienStudent(dataOd, dataDo, id_uzytkownika);
+            else if (kod_roli == "wykladowca") return PlanNaTydzienWykladowca(dataOd, dataDo, id_uzytkownika);
+            return null;
         }
     }
 }

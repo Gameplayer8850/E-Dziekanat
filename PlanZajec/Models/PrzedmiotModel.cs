@@ -17,5 +17,7 @@ namespace PlanZajec.Models
         public string DodatkoweMaterialy { get; set; }
         public int IloscGodzin { get; set; }
         public int Ects { get; set; }
+        public int NumerSemestru { get; set; }
+        public string NazwaGrupy { get; set; }
     }
 }

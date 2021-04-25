@@ -21,5 +21,12 @@ namespace PlanZajec.Controllers
         {
             return (new  PlanService()).AktualnyPlan(autoryzacja.Id_uzytkownika, autoryzacja.Kod_roli);
         }
+
+        [Route("zwroc_plan")]
+        [HttpPost]
+        public PlanTygodniaModel ZwrocPlan([FromBody] FiltrPlanuModel filtr)
+        {
+            return (new PlanService()).ZwrocPlanUzytkownika(filtr.DataOd, filtr.DataDo, filtr.Id_uzytkownika, filtr.Kod_roli);
+        }
     }
 }
