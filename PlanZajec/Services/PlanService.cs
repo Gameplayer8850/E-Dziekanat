@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -113,6 +114,10 @@ namespace PlanZajec.Services
 
         public PlanDniaModel KonwertujDoObiektuPlanDnia(DataTable dt, DateTime dzien)
         {
+            CultureInfo polska = new CultureInfo("pl-PL");
+            string dzienTygodnia = null;
+            if (dzien != null) dzienTygodnia = polska.DateTimeFormat.GetDayName(dzien.DayOfWeek);
+            if (dzienTygodnia != null && dzienTygodnia.Length > 0) dzienTygodnia = char.ToUpper(dzienTygodnia[0]) + dzienTygodnia.Substring(1);
             if (dt != null && dt.Rows.Count > 0)
             {
                 List<ZajecieModel> zajecia = new List<ZajecieModel>();
@@ -146,12 +151,14 @@ namespace PlanZajec.Services
                 return new PlanDniaModel()
                 {
                     Dzien = dzien,
+                    DzienTygodnia = dzienTygodnia,
                     Zajecia = zajecia
                 };
             }
             return new PlanDniaModel()
             {
                 Dzien = dzien,
+                DzienTygodnia= dzienTygodnia,
                 Zajecia = null
             };
         }
