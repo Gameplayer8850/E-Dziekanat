@@ -33,7 +33,7 @@ namespace PlanZajec.Services
                         } while (data.DayOfWeek == DayOfWeek.Sunday);
                     }
                     data = data.AddDays(-((int)data.DayOfWeek - 1));
-                    return PlanNaTydzienStudent(data, data.AddDays(4), id_uzytkownika);
+                    return PlanNaTydzienWybranegoStudenta(data, data.AddDays(4), id_uzytkownika);
                 }
                 else if (tryb == 'Z')
                 {
@@ -45,7 +45,7 @@ namespace PlanZajec.Services
                         } while (data.DayOfWeek != DayOfWeek.Saturday);
                     }
                     data = data.AddDays(-((int)data.DayOfWeek - 6));
-                    return PlanNaTydzienStudent(data, data.AddDays(1), id_uzytkownika);
+                    return PlanNaTydzienWybranegoStudenta(data, data.AddDays(1), id_uzytkownika);
                 }
                 return null;
             }
@@ -63,16 +63,27 @@ namespace PlanZajec.Services
             }
             return null;
         }
-        public PlanTygodniaModel PlanNaTydzienStudent(DateTime dataOd, DateTime dataDo, int id_uzytkownika)
-        {
-            List<PlanDniaModel> tydzien = new List<PlanDniaModel>();
 
+        public PlanTygodniaModel PlanNaTydzienWybranegoStudenta(DateTime dataOd, DateTime dataDo, int id_uzytkownika)
+        {
             GrupaSemestr gs = (new DaneUzytkownikaService()).ZwrocIdGrupyUzytkownika(id_uzytkownika);
             if (gs.id_semestru == 0) return null;
+            return PlanNaTydzienStudent(dataOd, dataDo, gs.id_semestru, gs.id_grupy);
+        }
 
-            for (int i = 0; i < (dataDo - dataOd).TotalDays+1; i++)
+        public PlanTygodniaModel PlanNaTydzienWybranejGrupy(DateTime dataOd, DateTime dataDo, int id_grupy)
+        {
+            int id_semestru = (new DaneUzytkownikaService()).ZwrocSemestrPoGrupie(id_grupy);
+            if (id_semestru == 0) return null;
+            return PlanNaTydzienStudent(dataOd, dataDo, id_semestru, id_grupy);
+        }
+
+        public PlanTygodniaModel PlanNaTydzienStudent(DateTime dataOd, DateTime dataDo, int id_semestru, int id_grupy)
+        {
+            List<PlanDniaModel> tydzien = new List<PlanDniaModel>();
+            for (int i = 0; i < (dataDo - dataOd).TotalDays + 1; i++)
             {
-                tydzien.Add(PlanNaDzienStudent(dataOd.AddDays(i), gs.id_semestru, gs.id_grupy));
+                tydzien.Add(PlanNaDzienStudent(dataOd.AddDays(i), id_semestru, id_grupy));
             }
             return new PlanTygodniaModel
             {
@@ -81,13 +92,21 @@ namespace PlanZajec.Services
                 Tydzien = tydzien
             };
         }
+
         public PlanTygodniaModel PlanNaTydzienWykladowca(DateTime dataOd, DateTime dataDo, int id_uzytkownika)
+        {        
+            int id_dane_osobowe = (new DaneUzytkownikaService()).ZwrocIdDanychOsobowych(id_uzytkownika);
+            if (id_dane_osobowe == 0) return null;
+            return PlanNaTydzienWybranegoWykladowcy(dataOd, dataDo, id_dane_osobowe);
+        }
+
+        public PlanTygodniaModel PlanNaTydzienWybranegoWykladowcy(DateTime dataOd, DateTime dataDo, int id_dane_osobowe)
         {
             List<PlanDniaModel> tydzien = new List<PlanDniaModel>();
 
             for (int i = 0; i < (dataDo - dataOd).TotalDays + 1; i++)
             {
-                tydzien.Add(PlanNaDzienWykladowca(dataOd.AddDays(i), id_uzytkownika));
+                tydzien.Add(PlanNaDzienWykladowca(dataOd.AddDays(i), id_dane_osobowe));
             }
             return new PlanTygodniaModel
             {
@@ -96,6 +115,7 @@ namespace PlanZajec.Services
                 Tydzien = tydzien
             };
         }
+
         public PlanDniaModel PlanNaDzienStudent(DateTime dzien, int id_semestru, int id_grupy)
         {
             SqlCommand command = new SqlCommand(PlanZajecRes.ResourceManager.GetString("sqlCmdZwrocPlanDlaGrupy"));
@@ -104,11 +124,12 @@ namespace PlanZajec.Services
             command.Parameters.Add(new SqlParameter("dzien", dzien.ToString("MM/dd/yyyy")));
             return KonwertujDoObiektuPlanDnia(BdPolaczenie.ZwrocDane(command), dzien);
         }
-        public PlanDniaModel PlanNaDzienWykladowca(DateTime dzien, int id_uzytkownika)
+
+        public PlanDniaModel PlanNaDzienWykladowca(DateTime dzien, int id_dane_osobowe)
         {
             SqlCommand command = new SqlCommand(PlanZajecRes.ResourceManager.GetString("sqlCmdZwrocPlanWykladowcy"));
             command.Parameters.Add(new SqlParameter("dzien", dzien.ToString("MM/dd/yyyy")));
-            command.Parameters.Add(new SqlParameter("id_uzytkownika", id_uzytkownika));
+            command.Parameters.Add(new SqlParameter("id_uzytkownika", id_dane_osobowe));
             return KonwertujDoObiektuPlanDnia(BdPolaczenie.ZwrocDane(command), dzien);
         }
 
@@ -163,10 +184,10 @@ namespace PlanZajec.Services
             };
         }
 
-        public PlanTygodniaModel ZwrocPlanUzytkownika(DateTime dataOd, DateTime dataDo, int id_uzytkownika, string kod_roli)
+        public PlanTygodniaModel ZwrocPlanUzytkownika(DateTime dataOd, DateTime dataDo, int id_pola, string kod_roli)
         {
-            if (kod_roli == "student") return PlanNaTydzienStudent(dataOd, dataDo, id_uzytkownika);
-            else if (kod_roli == "wykladowca") return PlanNaTydzienWykladowca(dataOd, dataDo, id_uzytkownika);
+            if (kod_roli == "student") return PlanNaTydzienWybranejGrupy(dataOd, dataDo, id_pola);
+            else if (kod_roli == "wykladowca") return PlanNaTydzienWybranegoWykladowcy(dataOd, dataDo, id_pola);
             return null;
         }
     }

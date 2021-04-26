@@ -11,5 +11,7 @@ namespace PlanZajec.Models
     {
         public DateTime DataOd { get; set; }
         public DateTime DataDo { get; set; }
+        public string KodPlanu { get; set; }
+        public int IdPola { get; set; }
     }
 }

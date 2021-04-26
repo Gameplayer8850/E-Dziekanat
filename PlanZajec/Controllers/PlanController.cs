@@ -26,7 +26,7 @@ namespace PlanZajec.Controllers
         [HttpPost]
         public PlanTygodniaModel ZwrocPlan([FromBody] FiltrPlanuModel filtr)
         {
-            return (new PlanService()).ZwrocPlanUzytkownika(filtr.DataOd, filtr.DataDo, filtr.Id_uzytkownika, filtr.Kod_roli);
+            return (new PlanService()).ZwrocPlanUzytkownika(filtr.DataOd, filtr.DataDo, filtr.IdPola, filtr.KodPlanu);
         }
     }
 }

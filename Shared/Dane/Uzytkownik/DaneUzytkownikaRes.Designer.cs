@@ -61,6 +61,16 @@ namespace Shared.Dane.Uzytkownik {
         }
         
         /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top 1 id_danych_osobowych from uzytkownicy
+        ///where id_uzytkownika=@id_uzytkownika.
+        /// </summary>
+        public static string sqlCmdZwrocIdDanychOsobowych {
+            get {
+                return ResourceManager.GetString("sqlCmdZwrocIdDanychOsobowych", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top 1 id_grupy, id_semestru from uzytkownicy
         ///left join dane_osobowe on uzytkownicy.id_danych_osobowych=dane_osobowe.id_danych_osobowych
         ///where id_uzytkownika=@id_uzytkownika.
@@ -68,6 +78,16 @@ namespace Shared.Dane.Uzytkownik {
         public static string sqlCmdZwrocIdGrupyUzytkownika {
             get {
                 return ResourceManager.GetString("sqlCmdZwrocIdGrupyUzytkownika", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top 1 id_semestru from grupy
+        ///where id_grupy=@id_grupy.
+        /// </summary>
+        public static string sqlCmdZwrocIdSemestruPoGrupie {
+            get {
+                return ResourceManager.GetString("sqlCmdZwrocIdSemestruPoGrupie", resourceCulture);
             }
         }
         

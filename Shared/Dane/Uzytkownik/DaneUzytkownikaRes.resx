@@ -117,10 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="sqlCmdZwrocIdDanychOsobowych" xml:space="preserve">
+    <value>select top 1 id_danych_osobowych from uzytkownicy
+where id_uzytkownika=@id_uzytkownika</value>
+  </data>
   <data name="sqlCmdZwrocIdGrupyUzytkownika" xml:space="preserve">
     <value>select top 1 id_grupy, id_semestru from uzytkownicy
 left join dane_osobowe on uzytkownicy.id_danych_osobowych=dane_osobowe.id_danych_osobowych
 where id_uzytkownika=@id_uzytkownika</value>
+  </data>
+  <data name="sqlCmdZwrocIdSemestruPoGrupie" xml:space="preserve">
+    <value>select top 1 id_semestru from grupy
+where id_grupy=@id_grupy</value>
   </data>
   <data name="sqlCmdZwrocTrybStudiowUzytkownika" xml:space="preserve">
     <value>select top 1 tryb from uzytkownicy
