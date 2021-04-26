@@ -10,5 +10,6 @@ namespace Shared.Models.Autoryzacja
     {
         public int Id_uzytkownika { get; set; }
         public string Kod_roli { get; set; }
+        public string ImieNazwisko { get; set; }
     }
 }

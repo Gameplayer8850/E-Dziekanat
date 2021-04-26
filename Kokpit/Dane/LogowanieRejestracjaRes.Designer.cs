@@ -61,7 +61,7 @@ namespace Kokpit.Dane {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top 1 uzytkownicy.id_uzytkownika from loginy
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top 1 uzytkownicy.id_uzytkownika, (imie+&apos; &apos;+nazwisko) as ImieNazwisko from loginy
         ///left join uzytkownicy on loginy.id_loginu=uzytkownicy.id_loginu
         ///left join dane_osobowe on uzytkownicy.id_danych_osobowych = dane_osobowe.id_danych_osobowych
         ///left join role on role.id_roli=dane_osobowe.id_roli
