@@ -130,6 +130,17 @@ where id_uzytkownika=@id_uzytkownika</value>
     <value>select top 1 id_semestru from grupy
 where id_grupy=@id_grupy</value>
   </data>
+  <data name="sqlCmdZwrocListeGrup" xml:space="preserve">
+    <value>select id_grupy, (Cast(numer_semestru as varchar(50))+' '+nazwa+' ('+tryb+')') as Grupa from grupy
+left join semestry on semestry.id_semestru=grupy.id_semestru
+order by numer_semestru, nazwa, tryb</value>
+  </data>
+  <data name="sqlCmdZwrocListeWykladowcow" xml:space="preserve">
+    <value>select id_danych_osobowych, (nazwisko+' '+imie) as NazwiskoImie from dane_osobowe 
+left join role on dane_osobowe.id_roli=role.id_roli
+where kod_roli='wykladowca'
+order by nazwisko, imie</value>
+  </data>
   <data name="sqlCmdZwrocTrybStudiowUzytkownika" xml:space="preserve">
     <value>select top 1 tryb from uzytkownicy
 left join dane_osobowe on uzytkownicy.id_danych_osobowych=dane_osobowe.id_danych_osobowych

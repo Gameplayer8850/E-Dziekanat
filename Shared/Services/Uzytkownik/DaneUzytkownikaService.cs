@@ -57,5 +57,17 @@ namespace Shared.Services.Uzytkownik
             if (dt != null && dt.Rows.Count > 0) return Convert.ToChar(dt.Rows[0][0]);
             return Char.MinValue;
         }
+
+        public DataTable ZwrocListeGrup()
+        {
+            SqlCommand command = new SqlCommand(DaneUzytkownikaRes.ResourceManager.GetString("sqlCmdZwrocListeGrup"));
+            return BdPolaczenie.ZwrocDane(command);
+        }
+
+        public DataTable ZwrocListeWykladowcow()
+        {
+            SqlCommand command = new SqlCommand(DaneUzytkownikaRes.ResourceManager.GetString("sqlCmdZwrocListeWykladowcow"));
+            return BdPolaczenie.ZwrocDane(command);
+        }
     }
 }

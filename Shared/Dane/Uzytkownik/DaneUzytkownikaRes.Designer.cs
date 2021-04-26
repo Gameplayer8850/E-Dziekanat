@@ -92,6 +92,29 @@ namespace Shared.Dane.Uzytkownik {
         }
         
         /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select id_grupy, (Cast(numer_semestru as varchar(50))+&apos; &apos;+nazwa+&apos; (&apos;+tryb+&apos;)&apos;) as Grupa from grupy
+        ///left join semestry on semestry.id_semestru=grupy.id_semestru
+        ///order by numer_semestru, nazwa, tryb.
+        /// </summary>
+        public static string sqlCmdZwrocListeGrup {
+            get {
+                return ResourceManager.GetString("sqlCmdZwrocListeGrup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select id_danych_osobowych, (nazwisko+&apos; &apos;+imie) as NazwiskoImie from dane_osobowe 
+        ///left join role on dane_osobowe.id_roli=role.id_roli
+        ///where kod_roli=&apos;wykladowca&apos;
+        ///order by nazwisko, imie.
+        /// </summary>
+        public static string sqlCmdZwrocListeWykladowcow {
+            get {
+                return ResourceManager.GetString("sqlCmdZwrocListeWykladowcow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top 1 tryb from uzytkownicy
         ///left join dane_osobowe on uzytkownicy.id_danych_osobowych=dane_osobowe.id_danych_osobowych
         ///left join semestry on dane_osobowe.id_semestru=semestry.id_semestru

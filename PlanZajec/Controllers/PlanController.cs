@@ -28,5 +28,19 @@ namespace PlanZajec.Controllers
         {
             return (new PlanService()).ZwrocPlanUzytkownika(filtr.DataOd, filtr.DataDo, filtr.IdPola, filtr.KodPlanu);
         }
+
+        [Route("wypelnij_combobox_domyslnie")]
+        [HttpPost]
+        public DaneComboBoxModel WypelnijDaneComboBoxDomyslnie([FromBody] AutoryzacjaModel autoryzacja)
+        {
+            return (new PlanService()).WypelnijDaneComboBox(autoryzacja.Id_uzytkownika, autoryzacja.Kod_roli);
+        }
+
+        [Route("wypelnij_combobox")]
+        [HttpPost]
+        public DaneComboBoxModel WypelnijDaneComboBox([FromBody] FiltryComboBoxModel filtry)
+        {
+            return (new PlanService()).WypelnijDaneComboBox(0, filtry.KodPlanu);
+        }
     }
 }

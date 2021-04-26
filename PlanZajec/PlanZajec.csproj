@@ -56,7 +56,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PlanZajecRes.resx</DependentUpon>
     </Compile>
+    <Compile Include="Models\DaneComboBoxModel.cs" />
     <Compile Include="Models\FiltrPlanuModel.cs" />
+    <Compile Include="Models\FiltryComboBoxModel.cs" />
     <Compile Include="Models\PlanDniaModel.cs" />
     <Compile Include="Models\PlanTygodniaModel.cs" />
     <Compile Include="Models\PrzedmiotModel.cs" />

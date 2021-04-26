@@ -190,5 +190,34 @@ namespace PlanZajec.Services
             else if (kod_roli == "wykladowca") return PlanNaTydzienWybranegoWykladowcy(dataOd, dataDo, id_pola);
             return null;
         }
+        public DaneComboBoxModel WypelnijDaneComboBox(int id_uzytkownika, string kod_roli)
+        {
+            int domyslna_wartosc = 0;
+            List<DaneComboBoxModel.Row> lista = new List<DaneComboBoxModel.Row>();
+            DaneUzytkownikaService dus = new DaneUzytkownikaService();
+            DataTable dt=null;
+            if (kod_roli == "student")
+            {
+                domyslna_wartosc = dus.ZwrocIdGrupyUzytkownika(id_uzytkownika).id_grupy;
+                dt = dus.ZwrocListeGrup();
+            }
+            else if (kod_roli == "wykladowca")
+            {
+                domyslna_wartosc = dus.ZwrocIdDanychOsobowych(id_uzytkownika);
+                dt = dus.ZwrocListeWykladowcow();
+            }
+            if (dt == null || dt.Rows.Count==0) return null;
+            foreach (DataRow dr in dt.Rows) 
+                lista.Add(new DaneComboBoxModel.Row() 
+                { 
+                    value = Convert.ToInt32(dr[0]), 
+                    visible = Convert.ToString(dr[1]) 
+                });
+            return new DaneComboBoxModel() 
+            { 
+                IdDomyslne = domyslna_wartosc, 
+                dane = lista 
+            };
+        }
     }
 }
