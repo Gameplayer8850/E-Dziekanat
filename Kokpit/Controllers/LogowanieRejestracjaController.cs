@@ -24,5 +24,27 @@ namespace Kokpit.Controllers
         {
             return (new LogowanieRejestracjaService()).Autoryzuj(model);
         }
+
+        [Route("przypomnij_haslo")]
+        [HttpPost]
+        public void Generuj_kod([FromBody] WygenerujKodModel model)
+        {
+           new LogowanieRejestracjaService().AutoryzujWygenerowanieKodu(model);
+        }
+
+        [Route("sprawdz_kod")]
+        [HttpPost]
+        public AutoryzjPoprawnoscWygenerowanegoKoduModel Sprawdz_kod([FromBody] WygenerowanyKodModel model)
+        {
+            return new LogowanieRejestracjaService().AutoryzujPoprawnoscWygenerowanegoKodu(model);
+        }
+
+        [Route("zmien_haslo")]
+        [HttpPost]
+        public bool Zmien_haslo([FromBody] ZmienHasloModel model)
+        {
+            return new LogowanieRejestracjaService().ZmienHaslo(model);
+        }
+        
     }
 }
