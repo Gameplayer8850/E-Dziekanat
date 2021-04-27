@@ -41,7 +41,7 @@ namespace Kokpit.Controllers
 
         [Route("zmien_haslo")]
         [HttpPost]
-        public bool Zmien_haslo([FromBody] ZmienHasloModel model)
+        public AutoryzujZmianeHasla Zmien_haslo([FromBody] ZmienHasloModel model)
         {
             return new LogowanieRejestracjaService().ZmienHaslo(model);
         }

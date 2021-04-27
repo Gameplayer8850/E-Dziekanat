@@ -61,7 +61,7 @@ namespace Kokpit.Dane {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top 1 uzytkownicy.id_uzytkownika, (imie+&apos; &apos;+nazwisko) as ImieNazwisko from loginy
+        ///   Looks up a localized string similar to select top 1 uzytkownicy.id_uzytkownika, (imie+&apos; &apos;+nazwisko) as ImieNazwisko from loginy
         ///left join uzytkownicy on loginy.id_loginu=uzytkownicy.id_loginu
         ///left join dane_osobowe on uzytkownicy.id_danych_osobowych = dane_osobowe.id_danych_osobowych
         ///left join role on role.id_roli=dane_osobowe.id_roli
@@ -102,11 +102,38 @@ namespace Kokpit.Dane {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT hash_hasla FROM dbo.loginy WHERE id_loginu in (SELECT id_loginu from dbo.loginy WHERE id_loginu in (SELECT id_loginu FROM dbo.uzytkownicy WHERE id_uzytkownika in (SELECT id_uzytkownika FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod))).
+        /// </summary>
+        internal static string sqlCmdSzukajHaslaPoWygenerowanymKodzie {
+            get {
+                return ResourceManager.GetString("sqlCmdSzukajHaslaPoWygenerowanymKodzie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select id_uzytkownika from dbo.uzytkownicy where id_loginu in (Select id_loginu from dbo.loginy where login=@login).
         /// </summary>
         internal static string sqlCmdSzukajIdUzytkownikaPoLoginie {
             get {
                 return ResourceManager.GetString("sqlCmdSzukajIdUzytkownikaPoLoginie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE dbo.operacja_zapomnialem_hasla SET data_wykorzystania = @data_wykorzystania WHERE wygenerowany_kod = @wygenerowany_kod.
+        /// </summary>
+        internal static string sqlCmdUstawDateWykorzystaniaWygenerowanegoKodu {
+            get {
+                return ResourceManager.GetString("sqlCmdUstawDateWykorzystaniaWygenerowanegoKodu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE dbo.loginy SET hash_hasla = @hash_hasla WHERE id_loginu in (SELECT id_loginu from dbo.loginy WHERE id_loginu in (SELECT id_loginu FROM dbo.uzytkownicy WHERE id_uzytkownika in (SELECT id_uzytkownika FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod))).
+        /// </summary>
+        internal static string sqlCmdZmienHaslo {
+            get {
+                return ResourceManager.GetString("sqlCmdZmienHaslo", resourceCulture);
             }
         }
     }

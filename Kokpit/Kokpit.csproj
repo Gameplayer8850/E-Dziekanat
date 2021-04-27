@@ -57,6 +57,7 @@
       <DependentUpon>LogowanieRejestracjaRes.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\AutoryzujPoprawnoscKodu.cs" />
+    <Compile Include="Models\AutoryzujZmianeHasla.cs" />
     <Compile Include="Models\LogowanieModel.cs" />
     <Compile Include="Models\WygenerowanyKodModel.cs" />
     <Compile Include="Models\WygenerujKodModel.cs" />

@@ -134,7 +134,16 @@ VALUES ((SELECT ISNULL(MAX(id_przypomnienia) + 1, 1) FROM dbo.operacja_zapomnial
   <data name="sqlCmdSzukajDatyUtworzeniaOrazDatyWykorzystaniaWygenerowanegoKodu" xml:space="preserve">
     <value>SELECT TOP 1 data_utworzenia, data_wykorzystania FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod</value>
   </data>
+  <data name="sqlCmdSzukajHaslaPoWygenerowanymKodzie" xml:space="preserve">
+    <value>SELECT hash_hasla FROM dbo.loginy WHERE id_loginu in (SELECT id_loginu from dbo.loginy WHERE id_loginu in (SELECT id_loginu FROM dbo.uzytkownicy WHERE id_uzytkownika in (SELECT id_uzytkownika FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod)))</value>
+  </data>
   <data name="sqlCmdSzukajIdUzytkownikaPoLoginie" xml:space="preserve">
     <value>Select id_uzytkownika from dbo.uzytkownicy where id_loginu in (Select id_loginu from dbo.loginy where login=@login)</value>
+  </data>
+  <data name="sqlCmdUstawDateWykorzystaniaWygenerowanegoKodu" xml:space="preserve">
+    <value>UPDATE dbo.operacja_zapomnialem_hasla SET data_wykorzystania = @data_wykorzystania WHERE wygenerowany_kod = @wygenerowany_kod</value>
+  </data>
+  <data name="sqlCmdZmienHaslo" xml:space="preserve">
+    <value>UPDATE dbo.loginy SET hash_hasla = @hash_hasla WHERE id_loginu in (SELECT id_loginu from dbo.loginy WHERE id_loginu in (SELECT id_loginu FROM dbo.uzytkownicy WHERE id_uzytkownika in (SELECT id_uzytkownika FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod)))</value>
   </data>
 </root>

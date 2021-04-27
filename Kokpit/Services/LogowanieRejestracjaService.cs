@@ -55,21 +55,29 @@ namespace Kokpit.Services
                 string wygenerowany_kod = GenerujUnikatowyKodDlaOperacjiZapomnialemHasla();
                 if (wygenerowany_kod != null)
                 {
-                    InsertDoTabeliOperacja_Zapomnialem_hasla(id, wygenerowany_kod);
-                    return new AutoryzujPoprawnoscKodu()
+                    if(InsertDoTabeliOperacja_Zapomnialem_hasla(id, wygenerowany_kod))
                     {
-                        Poprawnosc_kodu = true,
-                        Tresc_bledu = null
+                        return new AutoryzujPoprawnoscKodu()
+                        {
+                            Poprawnosc_kodu = true,
+                            Tresc_bledu = null
+                        };
+                    }else return new AutoryzujPoprawnoscKodu()
+                    {
+                        Poprawnosc_kodu = false,
+                        Tresc_bledu = "Nie umieszczono kodu w tabeli"
                     };
-                }else return new AutoryzujPoprawnoscKodu()
+
+                }
+                else return new AutoryzujPoprawnoscKodu()
                 {
                     Poprawnosc_kodu = false,
-                    Tresc_bledu = "wygenerowany_kod == null"
+                    Tresc_bledu = "Wygenerowany_kod nie istnieje"
                 };
             }else return new AutoryzujPoprawnoscKodu()
             {
                 Poprawnosc_kodu = false,
-                Tresc_bledu = "id <= 0"
+                Tresc_bledu = "Nie znaleziono uzytkownika"
             };
         }
 
@@ -77,14 +85,23 @@ namespace Kokpit.Services
         {
             if (SprawdzCzyWygenerowanyKodIstniejeWBazie(model.Wygenerowany_kod))
             {
-                if (SprawdzCzyGenerowanyKodJestWazny(model.Wygenerowany_kod))
+                if (SprawdzCzyWygenerowanyKodJestWazny(model.Wygenerowany_kod))
                 {
-                    return new AutoryzujPoprawnoscKodu()
+                    if(SprawdzCzyWygenerowanyKodZostalWykorzystany(model.Wygenerowany_kod))
                     {
-                        Poprawnosc_kodu = true,
-                        Tresc_bledu = null
+                        return new AutoryzujPoprawnoscKodu()
+                        {
+                            Poprawnosc_kodu = true,
+                            Tresc_bledu = null
+                        };
+                    }else return new AutoryzujPoprawnoscKodu()
+                    {
+                        Poprawnosc_kodu = false,
+                        Tresc_bledu = "Kod został wykorzystany"
                     };
-                }else return new AutoryzujPoprawnoscKodu()
+
+                }
+                else return new AutoryzujPoprawnoscKodu()
                 {
                     Poprawnosc_kodu = false,
                     Tresc_bledu = "Kod nieważny"
@@ -98,19 +115,62 @@ namespace Kokpit.Services
             };
         }
 
-        public bool ZmienHaslo(ZmienHasloModel model)
+        public AutoryzujZmianeHasla ZmienHaslo(ZmienHasloModel model)
         {
             string passwordHash = KonwertujNaHash(model.Password);
-            return true;
+            SqlCommand command = new SqlCommand(LogowanieRejestracjaRes.ResourceManager.GetString("sqlCmdZmienHaslo"));
+            command.Parameters.Add(new SqlParameter("hash_hasla", passwordHash));
+            command.Parameters.Add(new SqlParameter("wygenerowany_kod", model.Wygenerowany_kod));
+            BdPolaczenie.ZwrocDane(command);
+            if(SzukajHash_haslaPoWygenerowanymKodzie(model.Wygenerowany_kod) == passwordHash)
+            {
+                if (UstawDateWykorzystaniaWygenerowanegoKodu(model.Wygenerowany_kod))
+                {
+                    return new AutoryzujZmianeHasla
+                    {
+                        Zmieniono_haslo = true,
+                        Tresc_bledu = null
+                    };
+                }
+                else return new AutoryzujZmianeHasla
+                {
+                    Zmieniono_haslo = true,
+                    Tresc_bledu = "Nie ustawiono daty wykorzystania kodu"
+                };
+            }
+            else return new AutoryzujZmianeHasla
+            {
+                Zmieniono_haslo = true,
+                Tresc_bledu = "Nie zmieniono hasła"
+            };
+
         }
 
-        public void InsertDoTabeliOperacja_Zapomnialem_hasla(int id_uzytkownika, string wygenerowany_kod)
+        public bool InsertDoTabeliOperacja_Zapomnialem_hasla(int id_uzytkownika, string wygenerowany_kod)
         {
             SqlCommand command = new SqlCommand(LogowanieRejestracjaRes.ResourceManager.GetString("sqlCmdInsertDoTabeliOperacjaZapomnialemHasla"));
             command.Parameters.Add(new SqlParameter("id_uzytkownika", id_uzytkownika));
             command.Parameters.Add(new SqlParameter("wygenerowany_kod", wygenerowany_kod));
             command.Parameters.Add(new SqlParameter("data_utworzenia", DateTime.Now.ToString(formatDaty)));
             BdPolaczenie.ZwrocDane(command);
+            if (SprawdzCzyWygenerowanyKodIstniejeWBazie(wygenerowany_kod))
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public bool UstawDateWykorzystaniaWygenerowanegoKodu(string wygenerowany_kod)
+        {
+            SqlCommand command = new SqlCommand(LogowanieRejestracjaRes.ResourceManager.GetString("sqlCmdUstawDateWykorzystaniaWygenerowanegoKodu"));
+            command.Parameters.Add(new SqlParameter("data_wykorzystania", DateTime.Now.ToString(formatDaty)));
+            command.Parameters.Add(new SqlParameter("wygenerowany_kod", wygenerowany_kod));
+            BdPolaczenie.ZwrocDane(command);
+            if (SprawdzCzyWygenerowanyKodZostalWykorzystany(wygenerowany_kod))
+            {
+                return true;
+            }
+            else return false;
         }
         public int SzukajIdUzytkownikaPoLoginie(string login)
         {
@@ -123,6 +183,19 @@ namespace Kokpit.Services
                 return Convert.ToInt32(dt.Rows[0][0]);
             }
             else return 0;
+        }
+
+        public string SzukajHash_haslaPoWygenerowanymKodzie(string wygenerowany_kod)
+        {
+            SqlCommand command = new SqlCommand(LogowanieRejestracjaRes.ResourceManager.GetString("sqlCmdSzukajHaslaPoWygenerowanymKodzie"));
+            command.Parameters.Add(new SqlParameter("wygenerowany_kod", wygenerowany_kod));
+            DataTable dt = BdPolaczenie.ZwrocDane(command);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                System.Diagnostics.Debug.WriteLine("Hash_hasla = " + dt.Rows[0][0].ToString());
+                return dt.Rows[0][0].ToString();
+            }
+            else return null;
         }
         public DataTable SzukajDatyUtworzeniaOrazDatyWykorzystaniaWygenerowanegoKodu(string wygenerowany_kod)
         {
@@ -147,7 +220,16 @@ namespace Kokpit.Services
             return new string(Enumerable.Repeat(chars, dlugosc).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public bool SprawdzCzyGenerowanyKodJestWazny(string wygenerowany_kod)
+        public bool SprawdzCzyWygenerowanyKodZostalWykorzystany(string wygenerowany_kod)
+        {
+            DataTable dt = SzukajDatyUtworzeniaOrazDatyWykorzystaniaWygenerowanegoKodu(wygenerowany_kod);
+            if (dt.Rows[0][1] != null)
+            {
+                return true;
+            }
+            else return false;
+        }
+        public bool SprawdzCzyWygenerowanyKodJestWazny(string wygenerowany_kod)
         {
             DataTable dt = SzukajDatyUtworzeniaOrazDatyWykorzystaniaWygenerowanegoKodu(wygenerowany_kod);
             if (dt != null && dt.Rows.Count > 0)
