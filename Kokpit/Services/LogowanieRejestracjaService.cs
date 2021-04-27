@@ -134,13 +134,13 @@ namespace Kokpit.Services
                 }
                 else return new AutoryzujZmianeHasla
                 {
-                    Zmieniono_haslo = true,
+                    Zmieniono_haslo = false,
                     Tresc_bledu = "Nie ustawiono daty wykorzystania kodu"
                 };
             }
             else return new AutoryzujZmianeHasla
             {
-                Zmieniono_haslo = true,
+                Zmieniono_haslo = false,
                 Tresc_bledu = "Nie zmieniono hasła"
             };
 
