@@ -117,34 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="sqlCmdZwrocIdDanychOsobowych" xml:space="preserve">
-    <value>select top 1 id_danych_osobowych from uzytkownicy
-where id_uzytkownika=@id_uzytkownika</value>
+  <data name="sqlCmdZwrocPlanDlaGrupy" xml:space="preserve">
+    <value>select godz_rozp, godz_zakon, przedmiot_informacje.nazwa, typ, imie, nazwisko, opis, link_do_kursu, dodatkowe_materialy, ilosc_godzin, ects, numer_semestru, grupy.nazwa from plan_zajec
+left join przedmioty on przedmioty.id_przedmiotu=plan_zajec.id_przedmiotu
+left join przedmiot_informacje on przedmioty.id_informacji_przedmiotu=przedmiot_informacje.id_informacji_przedmiotu
+left join dane_osobowe on dane_osobowe.id_danych_osobowych=przedmioty.id_wykladowcy
+left join semestry on przedmioty.id_semestru=semestry.id_semestru
+left join grupy on przedmioty.id_grupy=grupy.id_grupy
+where dzien=@dzien and przedmioty.id_semestru=@id_semestru and (przedmioty.id_grupy is NULL or przedmioty.id_grupy=@id_grupy)
+order by godz_rozp</value>
   </data>
-  <data name="sqlCmdZwrocIdGrupyUzytkownika" xml:space="preserve">
-    <value>select top 1 id_grupy, id_semestru from uzytkownicy
-left join dane_osobowe on uzytkownicy.id_danych_osobowych=dane_osobowe.id_danych_osobowych
-where id_uzytkownika=@id_uzytkownika</value>
-  </data>
-  <data name="sqlCmdZwrocIdSemestruPoGrupie" xml:space="preserve">
-    <value>select top 1 id_semestru from grupy
-where id_grupy=@id_grupy</value>
-  </data>
-  <data name="sqlCmdZwrocListeGrup" xml:space="preserve">
-    <value>select id_grupy, (Cast(numer_semestru as varchar(50))+' '+nazwa+' ('+tryb+')') as Grupa from grupy
-left join semestry on semestry.id_semestru=grupy.id_semestru
-order by numer_semestru, nazwa, tryb</value>
-  </data>
-  <data name="sqlCmdZwrocListeWykladowcow" xml:space="preserve">
-    <value>select id_danych_osobowych, (nazwisko+' '+imie) as NazwiskoImie from dane_osobowe 
-left join role on dane_osobowe.id_roli=role.id_roli
-where kod_roli='wykladowca'
-order by nazwisko, imie</value>
-  </data>
-  <data name="sqlCmdZwrocTrybStudiowUzytkownika" xml:space="preserve">
-    <value>select top 1 tryb from uzytkownicy
-left join dane_osobowe on uzytkownicy.id_danych_osobowych=dane_osobowe.id_danych_osobowych
-left join semestry on dane_osobowe.id_semestru=semestry.id_semestru
-where id_uzytkownika=@id_uzytkownika</value>
+  <data name="sqlCmdZwrocPlanWykladowcy" xml:space="preserve">
+    <value>select godz_rozp, godz_zakon, przedmiot_informacje.nazwa, typ, imie, nazwisko, opis, link_do_kursu, dodatkowe_materialy, ilosc_godzin, ects, numer_semestru, grupy.nazwa from plan_zajec
+left join przedmioty on przedmioty.id_przedmiotu=plan_zajec.id_przedmiotu
+left join przedmiot_informacje on przedmioty.id_informacji_przedmiotu=przedmiot_informacje.id_informacji_przedmiotu
+left join dane_osobowe on dane_osobowe.id_danych_osobowych=przedmioty.id_wykladowcy
+left join semestry on przedmioty.id_semestru=semestry.id_semestru
+left join grupy on przedmioty.id_grupy=grupy.id_grupy
+where dzien=@dzien and przedmioty.id_wykladowcy=@id_uzytkownika
+order by godz_rozp</value>
   </data>
 </root>

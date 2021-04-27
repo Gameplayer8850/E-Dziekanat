@@ -51,6 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\PlanController.cs" />
+    <Compile Include="Dane\PlanZajecRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PlanZajecRes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DaneComboBoxModel.cs" />
+    <Compile Include="Models\FiltrPlanuModel.cs" />
+    <Compile Include="Models\FiltryComboBoxModel.cs" />
     <Compile Include="Models\PlanDniaModel.cs" />
     <Compile Include="Models\PlanTygodniaModel.cs" />
     <Compile Include="Models\PrzedmiotModel.cs" />
@@ -67,6 +75,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dane\PlanZajecRes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PlanZajecRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

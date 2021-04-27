@@ -31,7 +31,8 @@ namespace Kokpit.Services
                 return new AutoryzacjaModel() 
                 { 
                     Id_uzytkownika = Convert.ToInt32(dt.Rows[0][0]), 
-                    Kod_roli = model.Kod_roli 
+                    Kod_roli = model.Kod_roli,
+                    ImieNazwisko=Convert.ToString(dt.Rows[0][1])
                 };
             else return null;
         }
