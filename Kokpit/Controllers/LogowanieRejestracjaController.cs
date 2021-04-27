@@ -27,14 +27,14 @@ namespace Kokpit.Controllers
 
         [Route("przypomnij_haslo")]
         [HttpPost]
-        public void Generuj_kod([FromBody] WygenerujKodModel model)
+        public AutoryzujPoprawnoscKodu Generuj_kod([FromBody] WygenerujKodModel model)
         {
-           new LogowanieRejestracjaService().AutoryzujWygenerowanieKodu(model);
+           return new LogowanieRejestracjaService().AutoryzujWygenerowanieKodu(model);
         }
 
         [Route("sprawdz_kod")]
         [HttpPost]
-        public AutoryzjPoprawnoscWygenerowanegoKoduModel Sprawdz_kod([FromBody] WygenerowanyKodModel model)
+        public AutoryzujPoprawnoscKodu Sprawdz_kod([FromBody] WygenerowanyKodModel model)
         {
             return new LogowanieRejestracjaService().AutoryzujPoprawnoscWygenerowanegoKodu(model);
         }

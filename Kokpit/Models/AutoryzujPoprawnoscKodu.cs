@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kokpit.Models
 {
-    public class AutoryzjPoprawnoscWygenerowanegoKoduModel
+    public class AutoryzujPoprawnoscKodu
     {
         public bool Poprawnosc_kodu { get; set; }
 
