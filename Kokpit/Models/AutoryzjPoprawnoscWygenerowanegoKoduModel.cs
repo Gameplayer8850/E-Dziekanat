@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Kokpit.Models
 {
-    public class WygenerowanyKodModel
+    public class AutoryzjPoprawnoscWygenerowanegoKoduModel
     {
-        public string Wygenerowany_kod { get; set; }
+        public bool Poprawnosc_kodu { get; set; }
+
+        public string Tresc_bledu { get; set; }
     }
 }

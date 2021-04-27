@@ -8,7 +8,7 @@ namespace Kokpit.Models
 {
     public class ZmienHasloModel
     {
-        public string wygenerowany_kod { get; set; }
+        public string Wygenerowany_kod { get; set; }
         public string Password { get; set; }
     }
 }

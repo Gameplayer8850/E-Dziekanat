@@ -46,42 +46,48 @@ namespace Kokpit.Services
             return hash.ToString();
         }
 
-        public AutoryzacjaModel AutoryzujWygenerowanieKodu(WygenerujKodModel model)
+        public void AutoryzujWygenerowanieKodu(WygenerujKodModel model)
         {
-            int id = SzukajIdUzytkownikaPoLoginie(model.login);
+            int id = SzukajIdUzytkownikaPoLoginie(model.Login);
             if (id > 0)
             {
                 string wygenerowany_kod = GenerujUnikatowyKodDlaOperacjiZapomnialemHasla();
                 if (wygenerowany_kod != null)
                 {
                     InsertDoTabeliOperacja_Zapomnialem_hasla(id, wygenerowany_kod);
-                    return new AutoryzacjaModel()
-                    {
-                        Id_uzytkownika = id,
-                        Kod_roli = "test"
-                    };
                 }
-            }
-            return null;
-            
+            }     
         }
 
-        public AutoryzacjaModel AutoryzujPoprawnoscWygenerowanegoKodu(WygenerowanyKodModel model)
+        public AutoryzjPoprawnoscWygenerowanegoKoduModel AutoryzujPoprawnoscWygenerowanegoKodu(WygenerowanyKodModel model)
         {
-            if (SprawdzCzyWygenerowanyKodIstniejeWBazie(model.wygenerowany_kod) && SprawdzCzyGenerowanyKodJestWazny(model.wygenerowany_kod))
+            if (SprawdzCzyWygenerowanyKodIstniejeWBazie(model.Wygenerowany_kod))
             {
-                return new AutoryzacjaModel()
+                if (SprawdzCzyGenerowanyKodJestWazny(model.Wygenerowany_kod))
                 {
-                    Id_uzytkownika = 1,
-                    Kod_roli = "test"
+                    return new AutoryzjPoprawnoscWygenerowanegoKoduModel()
+                    {
+                        Poprawnosc_kodu = true,
+                        Tresc_bledu = null
+                    };
+                }else return new AutoryzjPoprawnoscWygenerowanegoKoduModel()
+                {
+                    Poprawnosc_kodu = false,
+                    Tresc_bledu = "Kod nieważny"
                 };
+
             }
-            else return null; 
+            else return new AutoryzjPoprawnoscWygenerowanegoKoduModel()
+            {
+                Poprawnosc_kodu = false,
+                Tresc_bledu = "Kod nie istnieje"
+            };
         }
 
-        public AutoryzacjaModel ZmienHaslo(ZmienHasloModel model)
+        public bool ZmienHaslo(ZmienHasloModel model)
         {
             string passwordHash = KonwertujNaHash(model.Password);
+            return true;
         }
 
         public void InsertDoTabeliOperacja_Zapomnialem_hasla(int id_uzytkownika, string wygenerowany_kod)
@@ -132,8 +138,9 @@ namespace Kokpit.Services
             DataTable dt = SzukajDatyUtworzeniaOrazDatyWykorzystaniaWygenerowanegoKodu(wygenerowany_kod);
             if (dt != null && dt.Rows.Count > 0)
             {
-                TimeSpan roznicaCzasu = DateTime.Now.Subtract(DateTime.ParseExact(dt.Rows[0][0].ToString(), formatDaty, null));
-                if (roznicaCzasu.TotalSeconds <= 7200) return true;
+                double roznicaCzasu = (DateTime.Now - Convert.ToDateTime(dt.Rows[0][0])).TotalSeconds;
+                System.Diagnostics.Debug.WriteLine("Roznica czasu - " + roznicaCzasu);
+                if (roznicaCzasu <= 7200) return true;
                 else return false;
             }
             else return false;

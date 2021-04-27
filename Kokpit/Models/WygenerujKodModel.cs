@@ -8,6 +8,6 @@ namespace Kokpit.Models
 {
     public class WygenerujKodModel
     {
-        public string login { get; set; }
+        public string Login { get; set; }
     }
 }
