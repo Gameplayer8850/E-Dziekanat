@@ -47,7 +47,7 @@ namespace Kokpit.Services
             return hash.ToString();
         }
 
-        public void AutoryzujWygenerowanieKodu(WygenerujKodModel model)
+        public AutoryzujPoprawnoscKodu AutoryzujWygenerowanieKodu(WygenerujKodModel model)
         {
             int id = SzukajIdUzytkownikaPoLoginie(model.Login);
             if (id > 0)
@@ -56,29 +56,42 @@ namespace Kokpit.Services
                 if (wygenerowany_kod != null)
                 {
                     InsertDoTabeliOperacja_Zapomnialem_hasla(id, wygenerowany_kod);
-                }
-            }     
+                    return new AutoryzujPoprawnoscKodu()
+                    {
+                        Poprawnosc_kodu = true,
+                        Tresc_bledu = null
+                    };
+                }else return new AutoryzujPoprawnoscKodu()
+                {
+                    Poprawnosc_kodu = false,
+                    Tresc_bledu = "wygenerowany_kod == null"
+                };
+            }else return new AutoryzujPoprawnoscKodu()
+            {
+                Poprawnosc_kodu = false,
+                Tresc_bledu = "id <= 0"
+            };
         }
 
-        public AutoryzjPoprawnoscWygenerowanegoKoduModel AutoryzujPoprawnoscWygenerowanegoKodu(WygenerowanyKodModel model)
+        public AutoryzujPoprawnoscKodu AutoryzujPoprawnoscWygenerowanegoKodu(WygenerowanyKodModel model)
         {
             if (SprawdzCzyWygenerowanyKodIstniejeWBazie(model.Wygenerowany_kod))
             {
                 if (SprawdzCzyGenerowanyKodJestWazny(model.Wygenerowany_kod))
                 {
-                    return new AutoryzjPoprawnoscWygenerowanegoKoduModel()
+                    return new AutoryzujPoprawnoscKodu()
                     {
                         Poprawnosc_kodu = true,
                         Tresc_bledu = null
                     };
-                }else return new AutoryzjPoprawnoscWygenerowanegoKoduModel()
+                }else return new AutoryzujPoprawnoscKodu()
                 {
                     Poprawnosc_kodu = false,
                     Tresc_bledu = "Kod nieważny"
                 };
 
             }
-            else return new AutoryzjPoprawnoscWygenerowanegoKoduModel()
+            else return new AutoryzujPoprawnoscKodu()
             {
                 Poprawnosc_kodu = false,
                 Tresc_bledu = "Kod nie istnieje"
