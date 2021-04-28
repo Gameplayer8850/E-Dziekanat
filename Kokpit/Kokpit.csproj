@@ -50,19 +50,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AktualnosciPowiadomieniaController .cs" />
     <Compile Include="Controllers\LogowanieRejestracjaController.cs" />
+    <Compile Include="Dane\AktualnosciPowiadomieniaRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AktualnosciPowiadomieniaRes.resx</DependentUpon>
+    </Compile>
     <Compile Include="Dane\LogowanieRejestracjaRes.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LogowanieRejestracjaRes.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\AutoryzujPoprawnoscKodu.cs" />
-    <Compile Include="Models\AutoryzujZmianeHasla.cs" />
-    <Compile Include="Models\LogowanieModel.cs" />
-    <Compile Include="Models\WygenerowanyKodModel.cs" />
-    <Compile Include="Models\WygenerujKodModel.cs" />
-    <Compile Include="Models\ZmienHasloModel.cs" />
+    <Compile Include="Models\LogowanieRejestracja\AutoryzujPoprawnoscKodu.cs" />
+    <Compile Include="Models\LogowanieRejestracja\AutoryzujZmianeHasla.cs" />
+    <Compile Include="Models\LogowanieRejestracja\LogowanieModel.cs" />
+    <Compile Include="Models\LogowanieRejestracja\WygenerowanyKodModel.cs" />
+    <Compile Include="Models\LogowanieRejestracja\WygenerujKodModel.cs" />
+    <Compile Include="Models\LogowanieRejestracja\ZmienHasloModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AktualnosciPowiadomieniaService .cs" />
     <Compile Include="Services\LogowanieRejestracjaService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,10 +82,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Dane\AktualnosciPowiadomieniaRes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AktualnosciPowiadomieniaRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dane\LogowanieRejestracjaRes.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LogowanieRejestracjaRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\AktualnosciPowiadomienia\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
