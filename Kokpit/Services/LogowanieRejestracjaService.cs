@@ -225,6 +225,7 @@ namespace Kokpit.Services
             DataTable dt = SzukajDatyUtworzeniaOrazDatyWykorzystaniaWygenerowanegoKodu(wygenerowany_kod);
             if (dt.Rows[0][1] != null)
             {
+                System.Diagnostics.Debug.WriteLine("Data wykorzystania = " + dt.Rows[0][1].ToString());
                 return true;
             }
             else return false;
