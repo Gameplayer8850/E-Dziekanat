@@ -122,14 +122,17 @@
 left join uzytkownicy on loginy.id_loginu=uzytkownicy.id_loginu
 left join dane_osobowe on uzytkownicy.id_danych_osobowych = dane_osobowe.id_danych_osobowych
 left join role on role.id_roli=dane_osobowe.id_roli
-where loginy.login=@login and hash_hasla=@password and kod_roli=@kod_roli</value>
+where loginy.login=@login and UPPER(hash_hasla)=UPPER(@password) and kod_roli=@kod_roli</value>
   </data>
   <data name="sqlCmdInsertDoTabeliOperacjaZapomnialemHasla" xml:space="preserve">
-    <value>INSERT INTO dbo.operacja_zapomnialem_hasla (id_przypomnienia, id_uzytkownika, wygenerowany_kod, data_utworzenia, data_wykorzystania)
-VALUES ((SELECT ISNULL(MAX(id_przypomnienia) + 1, 1) FROM dbo.operacja_zapomnialem_hasla), @id_uzytkownika, @wygenerowany_kod, @data_utworzenia, NULL);</value>
+    <value>INSERT INTO dbo.operacja_zapomnialem_hasla (id_uzytkownika, wygenerowany_kod, data_utworzenia, data_wykorzystania)
+VALUES (@id_uzytkownika, @wygenerowany_kod, @data_utworzenia, NULL);</value>
   </data>
   <data name="sqlCmdSprawdzCzyWygenerowanyKodIstniejeWBazie" xml:space="preserve">
     <value>SELECT TOP 1 wygenerowany_kod FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod;</value>
+  </data>
+  <data name="sqlCmdSprawdzPoprawnoscKodu" xml:space="preserve">
+    <value>Select * from Sprawdz_poprawnosc_kodu(@kod)</value>
   </data>
   <data name="sqlCmdSzukajDatyUtworzeniaOrazDatyWykorzystaniaWygenerowanegoKodu" xml:space="preserve">
     <value>SELECT TOP 1 data_utworzenia, data_wykorzystania FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod</value>
@@ -144,6 +147,6 @@ VALUES ((SELECT ISNULL(MAX(id_przypomnienia) + 1, 1) FROM dbo.operacja_zapomnial
     <value>UPDATE dbo.operacja_zapomnialem_hasla SET data_wykorzystania = @data_wykorzystania WHERE wygenerowany_kod = @wygenerowany_kod</value>
   </data>
   <data name="sqlCmdZmienHaslo" xml:space="preserve">
-    <value>UPDATE dbo.loginy SET hash_hasla = @hash_hasla WHERE id_loginu in (SELECT id_loginu from dbo.loginy WHERE id_loginu in (SELECT id_loginu FROM dbo.uzytkownicy WHERE id_uzytkownika in (SELECT id_uzytkownika FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod)))</value>
+    <value>UPDATE dbo.loginy SET hash_hasla = @hash_hasla, ostatnia_data_zmiany=GETDATE() WHERE id_loginu in (SELECT id_loginu from dbo.loginy WHERE id_loginu in (SELECT id_loginu FROM dbo.uzytkownicy WHERE id_uzytkownika in (SELECT id_uzytkownika FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod)))</value>
   </data>
 </root>
