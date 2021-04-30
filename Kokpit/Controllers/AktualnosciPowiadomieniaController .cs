@@ -15,7 +15,7 @@ namespace Kokpit.Controllers
     {
         [Route("aktualnosci")]
         [HttpPost]
-        public TopAktualnosciListModel TopNajnowszychAktualnosci([FromBody] ZapytanieTopAktualnosciPowiadomieniaModel model)
+        public TopListAktualnosciPowiadomienModel TopNajnowszychAktualnosci([FromBody] ZapytanieTopAktualnosciPowiadomieniaModel model)
         {
             return (new AktualnosciPowiadomieniaService().ZwrocTopNajnowszychAktualnosci(model));
         }

@@ -63,7 +63,7 @@
       <DependentUpon>LogowanieRejestracjaRes.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\AktualnosciPowiadomienia\AktualnoscPowiadomienieModel.cs" />
-    <Compile Include="Models\AktualnosciPowiadomienia\TopAktualnosciListModel.cs" />
+    <Compile Include="Models\AktualnosciPowiadomienia\TopListAktualnosciPowiadomienModel.cs" />
     <Compile Include="Models\AktualnosciPowiadomienia\ZapytanieAktualnosciPowiadomieniaModel.cs" />
     <Compile Include="Models\LogowanieRejestracja\AutoryzujPoprawnoscKodu.cs" />
     <Compile Include="Models\LogowanieRejestracja\AutoryzujZmianeHasla.cs" />

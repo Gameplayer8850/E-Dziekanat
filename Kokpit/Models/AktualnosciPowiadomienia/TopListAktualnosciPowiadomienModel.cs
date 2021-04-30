@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Kokpit.Models.AktualnosciPowiadomienia
 {
-    public class TopAktualnosciListModel
+    public class TopListAktualnosciPowiadomienModel
     {
-        public List<AktualnoscPowiadomienieModel> Top3List { get; set; }
+        public List<AktualnoscPowiadomienieModel> TopListAktualnosciPowiadomien { get; set; }
     }
 }
