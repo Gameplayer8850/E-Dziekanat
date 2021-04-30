@@ -74,8 +74,8 @@ namespace Kokpit.Dane {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu INSERT INTO dbo.operacja_zapomnialem_hasla (id_przypomnienia, id_uzytkownika, wygenerowany_kod, data_utworzenia, data_wykorzystania)
-        ///VALUES ((SELECT ISNULL(MAX(id_przypomnienia) + 1, 1) FROM dbo.operacja_zapomnialem_hasla), @id_uzytkownika, @wygenerowany_kod, @data_utworzenia, NULL);.
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu INSERT INTO dbo.operacja_zapomnialem_hasla (id_uzytkownika, wygenerowany_kod, data_utworzenia, data_wykorzystania)
+        ///VALUES (@id_uzytkownika, @wygenerowany_kod, @data_utworzenia, NULL);.
         /// </summary>
         internal static string sqlCmdInsertDoTabeliOperacjaZapomnialemHasla {
             get {

@@ -125,8 +125,8 @@ left join role on role.id_roli=dane_osobowe.id_roli
 where loginy.login=@login and UPPER(hash_hasla)=UPPER(@password) and kod_roli=@kod_roli</value>
   </data>
   <data name="sqlCmdInsertDoTabeliOperacjaZapomnialemHasla" xml:space="preserve">
-    <value>INSERT INTO dbo.operacja_zapomnialem_hasla (id_przypomnienia, id_uzytkownika, wygenerowany_kod, data_utworzenia, data_wykorzystania)
-VALUES ((SELECT ISNULL(MAX(id_przypomnienia) + 1, 1) FROM dbo.operacja_zapomnialem_hasla), @id_uzytkownika, @wygenerowany_kod, @data_utworzenia, NULL);</value>
+    <value>INSERT INTO dbo.operacja_zapomnialem_hasla (id_uzytkownika, wygenerowany_kod, data_utworzenia, data_wykorzystania)
+VALUES (@id_uzytkownika, @wygenerowany_kod, @data_utworzenia, NULL);</value>
   </data>
   <data name="sqlCmdSprawdzCzyWygenerowanyKodIstniejeWBazie" xml:space="preserve">
     <value>SELECT TOP 1 wygenerowany_kod FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod;</value>
