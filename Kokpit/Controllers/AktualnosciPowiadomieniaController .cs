@@ -1,4 +1,4 @@
-﻿using Kokpit.Models;
+﻿using Kokpit.Models.AktualnosciPowiadomienia;
 using Kokpit.Services;
 using System;
 using System.Collections.Generic;
@@ -7,10 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Shared.Models.Autoryzacja;
+
 namespace Kokpit.Controllers
 {
-    [RoutePrefix("api/logowanie")]
-    class AktualnosciPowiadomieniaController : ApiController
+    [RoutePrefix("api/kokpit")]
+    public class AktualnosciPowiadomieniaController : ApiController
     {
+        [Route("aktualnosci")]
+        [HttpPost]
+        public TopAktualnosciListModel TopNajnowszychAktualnosci([FromBody] ZapytanieTopAktualnosciPowiadomieniaModel model)
+        {
+            return (new AktualnosciPowiadomieniaService().ZwrocTopNajnowszychAktualnosci(model));
+        }
     }
 }
