@@ -62,8 +62,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LogowanieRejestracjaRes.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\LogowanieRejestracja\AutoryzujPoprawnoscKodu.cs" />
-    <Compile Include="Models\LogowanieRejestracja\AutoryzujZmianeHasla.cs" />
+    <Compile Include="Models\LogowanieRejestracja\InformacjaZwrotnaKodModel.cs" />
     <Compile Include="Models\LogowanieRejestracja\LogowanieModel.cs" />
     <Compile Include="Models\LogowanieRejestracja\WygenerowanyKodModel.cs" />
     <Compile Include="Models\LogowanieRejestracja\WygenerujKodModel.cs" />

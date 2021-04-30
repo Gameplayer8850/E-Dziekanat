@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Shared.Models.Autoryzacja;
+using Kokpit.Models.LogowanieRejestracja;
 
 namespace Kokpit.Controllers
 {
@@ -27,21 +28,21 @@ namespace Kokpit.Controllers
 
         [Route("przypomnij_haslo")]
         [HttpPost]
-        public AutoryzujPoprawnoscKodu Generuj_kod([FromBody] WygenerujKodModel model)
+        public InformacjaZwrotnaKodModel Generuj_kod([FromBody] WygenerujKodModel model)
         {
            return new LogowanieRejestracjaService().AutoryzujWygenerowanieKodu(model);
         }
 
         [Route("sprawdz_kod")]
         [HttpPost]
-        public AutoryzujPoprawnoscKodu Sprawdz_kod([FromBody] WygenerowanyKodModel model)
+        public InformacjaZwrotnaKodModel Sprawdz_kod([FromBody] WygenerowanyKodModel model)
         {
-            return new LogowanieRejestracjaService().AutoryzujPoprawnoscWygenerowanegoKodu(model);
+            return new LogowanieRejestracjaService().AutoryzacjaWygenerowanegoKodu(model);
         }
 
         [Route("zmien_haslo")]
         [HttpPost]
-        public AutoryzujZmianeHasla Zmien_haslo([FromBody] ZmienHasloModel model)
+        public InformacjaZwrotnaKodModel Zmien_haslo([FromBody] ZmienHasloModel model)
         {
             return new LogowanieRejestracjaService().ZmienHaslo(model);
         }

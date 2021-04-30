@@ -93,6 +93,15 @@ namespace Kokpit.Dane {
         }
         
         /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Select * from Sprawdz_poprawnosc_kodu(@kod).
+        /// </summary>
+        internal static string sqlCmdSprawdzPoprawnoscKodu {
+            get {
+                return ResourceManager.GetString("sqlCmdSprawdzPoprawnoscKodu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// Wyszukuje zlokalizowany ciąg podobny do ciągu SELECT TOP 1 data_utworzenia, data_wykorzystania FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod.
         /// </summary>
         internal static string sqlCmdSzukajDatyUtworzeniaOrazDatyWykorzystaniaWygenerowanegoKodu {
@@ -129,7 +138,7 @@ namespace Kokpit.Dane {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu UPDATE dbo.loginy SET hash_hasla = @hash_hasla WHERE id_loginu in (SELECT id_loginu from dbo.loginy WHERE id_loginu in (SELECT id_loginu FROM dbo.uzytkownicy WHERE id_uzytkownika in (SELECT id_uzytkownika FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod))).
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu UPDATE dbo.loginy SET hash_hasla = @hash_hasla, ostatnia_data_zmiany=GETDATE() WHERE id_loginu in (SELECT id_loginu from dbo.loginy WHERE id_loginu in (SELECT id_loginu FROM dbo.uzytkownicy WHERE id_uzytkownika in (SELECT id_uzytkownika FROM dbo.operacja_zapomnialem_hasla WHERE wygenerowany_kod = @wygenerowany_kod))).
         /// </summary>
         internal static string sqlCmdZmienHaslo {
             get {
