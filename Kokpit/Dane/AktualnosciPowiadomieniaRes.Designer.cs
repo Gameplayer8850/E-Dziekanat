@@ -59,5 +59,25 @@ namespace Kokpit.Dane {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to select top (@ilosc) *
+        ///from dbo.aktualnosci
+        ///order by data_wystawienia DESC.
+        /// </summary>
+        internal static string sqlCmdPobierzTopIloscNajnowszychAktualnosci {
+            get {
+                return ResourceManager.GetString("sqlCmdPobierzTopIloscNajnowszychAktualnosci", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT imie,nazwisko from dbo.dane_osobowe WHERE id_danych_osobowych in (SELECT id_danych_osobowych from dbo.uzytkownicy WHERE id_uzytkownika in (SELECT id_tworcy FROM dbo.aktualnosci WHERE id_tworcy = @id_tworcy)).
+        /// </summary>
+        internal static string sqlCmdZnajdzImieINazwiskoTworcyPoId_tworcy {
+            get {
+                return ResourceManager.GetString("sqlCmdZnajdzImieINazwiskoTworcyPoId_tworcy", resourceCulture);
+            }
+        }
     }
 }
