@@ -18,14 +18,14 @@ namespace Kokpit.Services
 {
     class AktualnosciPowiadomieniaService
     {
-        public TopAktualnosciListModel ZwrocTopNajnowszychAktualnosci(ZapytanieTopAktualnosciPowiadomieniaModel model)
+        public TopListAktualnosciPowiadomienModel ZwrocTopNajnowszychAktualnosci(ZapytanieTopAktualnosciPowiadomieniaModel model)
         {
             DataTable dt = PobierzTopIloscNajnowszychAktualnosciZBazy(model.Ilosc);
             if (dt != null && dt.Rows.Count > 0)
             {
-                return new TopAktualnosciListModel
+                return new TopListAktualnosciPowiadomienModel
                 {
-                    Top3List = KonwertujDataTableNaAktualnoscPowiadomienieListModel(dt)
+                    TopListAktualnosciPowiadomien = KonwertujDataTableNaAktualnoscPowiadomienieListModel(dt)
                 };
             }
             else return null;
@@ -33,7 +33,6 @@ namespace Kokpit.Services
 
         public List<AktualnoscPowiadomienieModel> KonwertujDataTableNaAktualnoscPowiadomienieListModel(DataTable dt)
         {
-
             List<AktualnoscPowiadomienieModel> list = new List<AktualnoscPowiadomienieModel>();
             foreach (DataRow row in dt.Rows)
             {
