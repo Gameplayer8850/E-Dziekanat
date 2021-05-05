@@ -10,7 +10,7 @@ using Shared.Models.Autoryzacja;
 
 namespace Kokpit.Controllers
 {
-    [RoutePrefix("api/kokpit")]
+    [RoutePrefix("api")]
     public class AktualnosciPowiadomieniaController : ApiController
     {
         [Route("aktualnosci")]
