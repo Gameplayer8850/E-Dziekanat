@@ -38,6 +38,7 @@ namespace Kokpit.Services
             {
                 list.Add(new AktualnoscPowiadomienieModel
                 {
+                    Id_aktualnosci = Convert.ToInt32(row["id_aktualnosci"]),
                     Tytul = row["Tytul"].ToString(),
                     Tresc = row["Tresc"].ToString(),
                     Zdjecie = ObjectToByteArray(row["Zdjecie"]),
