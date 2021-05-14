@@ -314,6 +314,10 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Formularze\Formularze.csproj">
+      <Project>{fd15e409-5183-4320-afb1-fc47c59f4b9b}</Project>
+      <Name>Formularze</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kokpit\Kokpit.csproj">
       <Project>{11cffac8-c89b-441f-b62a-af1efa3f973b}</Project>
       <Name>Kokpit</Name>
@@ -326,6 +330,9 @@
       <Project>{99D4186E-DF2F-43CD-B88B-ED08B992299A}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

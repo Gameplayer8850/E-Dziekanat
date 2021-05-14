@@ -8,6 +8,7 @@ namespace Kokpit.Models.AktualnosciPowiadomienia
 {
     public class AktualnoscPowiadomienieModel
     {
+        public int Id_aktualnosci { get; set; }
         public string Tytul { get; set; }
         public string Tresc { get; set; }
         public byte[] Zdjecie { get; set; }
