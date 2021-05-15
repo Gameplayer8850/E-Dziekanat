@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Kokpit.Services
 {
-    class AktualnosciPowiadomieniaService
+    public class AktualnosciPowiadomieniaService
     {
         public TopListAktualnosciPowiadomienModel ZwrocTopNajnowszychAktualnosci(ZapytanieTopAktualnosciPowiadomieniaModel model)
         {
@@ -82,6 +82,33 @@ namespace Kokpit.Services
                 return dt;
             }
             else return null;
+        }
+        public List<AktualnoscPowiadomienieModel> ZwrocPowiadomienia(int id_uzytkownika, int ilosc)
+        {
+            SqlCommand command = new SqlCommand(AktualnosciPowiadomieniaRes.ResourceManager.GetString("sqlCmdZwrocPowiadomieniaPoIdUzytkownika"));
+            command.Parameters.Add(new SqlParameter("ilosc", ilosc));
+            command.Parameters.Add(new SqlParameter("id_uzytkownika", id_uzytkownika));
+            DataTable dt = BdPolaczenie.ZwrocDane(command);
+            List<AktualnoscPowiadomienieModel> wynik = null;
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                wynik = new List<AktualnoscPowiadomienieModel>();
+                int lp = 1;
+                foreach(DataRow row in dt.Rows)
+                {
+                    wynik.Add(new AktualnoscPowiadomienieModel() 
+                    {
+                        Id_aktualnosci=lp,
+                        Tytul=null,
+                        Tresc=Convert.ToString(row["tresc"]),
+                        Zdjecie=null,
+                        Tworca=null,
+                        Data_wystawienia=Convert.ToDateTime(row["data"])
+                    });
+                    lp++;
+                }
+            }
+            return wynik;
         }
     }
 }

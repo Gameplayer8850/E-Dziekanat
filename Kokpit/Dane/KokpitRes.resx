@@ -117,15 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="sqlCmdPobierzTopIloscNajnowszychAktualnosci" xml:space="preserve">
-    <value>select top (@ilosc) *
-from dbo.aktualnosci
-order by data_wystawienia DESC</value>
-  </data>
-  <data name="sqlCmdZnajdzImieINazwiskoTworcyPoId_tworcy" xml:space="preserve">
-    <value>SELECT imie,nazwisko from dbo.dane_osobowe WHERE id_danych_osobowych in (SELECT id_danych_osobowych from dbo.uzytkownicy WHERE id_uzytkownika in (SELECT id_tworcy FROM dbo.aktualnosci WHERE id_tworcy = @id_tworcy))</value>
-  </data>
-  <data name="sqlCmdZwrocPowiadomieniaPoIdUzytkownika" xml:space="preserve">
-    <value>select top (@ilosc) data, tresc from Wygeneruj_powiadomienia(@id_uzytkownika)</value>
+  <data name="sqlCmdZwrocKierunekSemestr" xml:space="preserve">
+    <value>select nazwa, numer_semestru from uzytkownicy
+left join dane_osobowe on dane_osobowe.id_danych_osobowych=uzytkownicy.id_danych_osobowych
+left join semestry on semestry.id_semestru=dane_osobowe.id_semestru
+left join kierunki on kierunki.id_kierunku=semestry.id_kierunku
+where id_uzytkownika=@id_uzytkownika</value>
   </data>
 </root>

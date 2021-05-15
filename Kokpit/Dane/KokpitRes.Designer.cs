@@ -22,14 +22,14 @@ namespace Kokpit.Dane {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AktualnosciPowiadomieniaRes {
+    internal class KokpitRes {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal AktualnosciPowiadomieniaRes() {
+        internal KokpitRes() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Kokpit.Dane {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Kokpit.Dane.AktualnosciPowiadomieniaRes", typeof(AktualnosciPowiadomieniaRes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Kokpit.Dane.KokpitRes", typeof(KokpitRes).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,31 +61,15 @@ namespace Kokpit.Dane {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top (@ilosc) *
-        ///from dbo.aktualnosci
-        ///order by data_wystawienia DESC.
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select nazwa, numer_semestru from uzytkownicy
+        ///left join dane_osobowe on dane_osobowe.id_danych_osobowych=uzytkownicy.id_danych_osobowych
+        ///left join semestry on semestry.id_semestru=dane_osobowe.id_semestru
+        ///left join kierunki on kierunki.id_kierunku=semestry.id_kierunku
+        ///where id_uzytkownika=@id_uzytkownika.
         /// </summary>
-        internal static string sqlCmdPobierzTopIloscNajnowszychAktualnosci {
+        internal static string sqlCmdZwrocKierunekSemestr {
             get {
-                return ResourceManager.GetString("sqlCmdPobierzTopIloscNajnowszychAktualnosci", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu SELECT imie,nazwisko from dbo.dane_osobowe WHERE id_danych_osobowych in (SELECT id_danych_osobowych from dbo.uzytkownicy WHERE id_uzytkownika in (SELECT id_tworcy FROM dbo.aktualnosci WHERE id_tworcy = @id_tworcy)).
-        /// </summary>
-        internal static string sqlCmdZnajdzImieINazwiskoTworcyPoId_tworcy {
-            get {
-                return ResourceManager.GetString("sqlCmdZnajdzImieINazwiskoTworcyPoId_tworcy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top (@ilosc) data, tresc from Wygeneruj_powiadomienia(@id_uzytkownika).
-        /// </summary>
-        internal static string sqlCmdZwrocPowiadomieniaPoIdUzytkownika {
-            get {
-                return ResourceManager.GetString("sqlCmdZwrocPowiadomieniaPoIdUzytkownika", resourceCulture);
+                return ResourceManager.GetString("sqlCmdZwrocKierunekSemestr", resourceCulture);
             }
         }
     }
