@@ -68,5 +68,34 @@ namespace Formularze.Dane {
                 return ResourceManager.GetString("SqlCmdDodajDokument", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM dbo.dokumenty WHERE id_dokumentu = @id_dokumentu.
+        /// </summary>
+        internal static string SqlCmdPobierzDokument {
+            get {
+                return ResourceManager.GetString("SqlCmdPobierzDokument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to select top (@ilosc) *
+        ///from dbo.dokumenty
+        ///order by data_wrzucenia_pliku DESC.
+        /// </summary>
+        internal static string SqlCmdPobierzTopIloscDokumentow {
+            get {
+                return ResourceManager.GetString("SqlCmdPobierzTopIloscDokumentow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT imie, nazwisko FROM dbo.dane_osobowe WHERE id_danych_osobowych in (SELECT id_uzytkownika =  @id_przesylajacego).
+        /// </summary>
+        internal static string SqlCmdZnajdzPrzesylajacegoPoId_przesylajacego {
+            get {
+                return ResourceManager.GetString("SqlCmdZnajdzPrzesylajacegoPoId_przesylajacego", resourceCulture);
+            }
+        }
     }
 }

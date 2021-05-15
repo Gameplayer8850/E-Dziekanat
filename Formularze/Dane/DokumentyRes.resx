@@ -120,4 +120,15 @@
   <data name="SqlCmdDodajDokument" xml:space="preserve">
     <value>INSERT INTO dbo.dokumenty (nazwa_dokumentu, data_modyfikacji_pliku, data_wrzucenia_pliku, plik, id_przesylajacego) VALUES (@nazwa_dokumentu, @data_modyfikacji_pliku, @data_wrzucenia_pliku, @plik, @id_przesylajacego)</value>
   </data>
+  <data name="SqlCmdPobierzDokument" xml:space="preserve">
+    <value>SELECT * FROM dbo.dokumenty WHERE id_dokumentu = @id_dokumentu</value>
+  </data>
+  <data name="SqlCmdPobierzTopIloscDokumentow" xml:space="preserve">
+    <value>select top (@ilosc) *
+from dbo.dokumenty
+order by data_wrzucenia_pliku DESC</value>
+  </data>
+  <data name="SqlCmdZnajdzPrzesylajacegoPoId_przesylajacego" xml:space="preserve">
+    <value>SELECT imie, nazwisko FROM dbo.dane_osobowe WHERE id_danych_osobowych in (SELECT id_uzytkownika =  @id_przesylajacego)</value>
+  </data>
 </root>

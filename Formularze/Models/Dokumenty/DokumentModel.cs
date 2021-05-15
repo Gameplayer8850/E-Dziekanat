@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System;
+using System.Net.Http;
 
 namespace Formularze.Models.Dokumenty
 {
@@ -11,6 +12,7 @@ namespace Formularze.Models.Dokumenty
         public string Nazwa_dokumentu { get; set; }
         public DateTime Data_modyfikacji_pliku { get; set; }
         public DateTime Data_wrzuceniu_pliku { get; set; }
-        public byte Plik { get; set; }
+        
+        public string Przesylajacy { get; set; }
     }
 }
