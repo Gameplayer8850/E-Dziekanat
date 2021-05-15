@@ -25,25 +25,13 @@ namespace PlanZajec.Services
                 char tryb = (new DaneUzytkownikaService()).ZwrocTrybStudiowUzytkownika(id_uzytkownika);
                 if (tryb == 'S')
                 {
-                    if (data.DayOfWeek == DayOfWeek.Saturday || data.DayOfWeek == DayOfWeek.Sunday)
-                    {
-                        do
-                        {
-                            data = data.AddDays(1);
-                        } while (data.DayOfWeek == DayOfWeek.Sunday);
-                    }
+                    data = ZwrocNajblizszaData(data, tryb);
                     data = data.AddDays(-((int)data.DayOfWeek - 1));
                     return PlanNaTydzienWybranegoStudenta(data, data.AddDays(4), id_uzytkownika);
                 }
                 else if (tryb == 'Z')
                 {
-                    if (data.DayOfWeek != DayOfWeek.Saturday && data.DayOfWeek != DayOfWeek.Sunday)
-                    {
-                        do
-                        {
-                            data = data.AddDays(1);
-                        } while (data.DayOfWeek != DayOfWeek.Saturday);
-                    }
+                    data = ZwrocNajblizszaData(data, tryb);
                     data = data.AddDays(-((int)data.DayOfWeek - 6));
                     return PlanNaTydzienWybranegoStudenta(data, data.AddDays(1), id_uzytkownika);
                 }
@@ -51,17 +39,63 @@ namespace PlanZajec.Services
             }
             else if (kod_roli == "wykladowca")
             {
-                if (data.DayOfWeek == DayOfWeek.Saturday || data.DayOfWeek == DayOfWeek.Sunday)
-                {
-                    do
-                    {
-                        data = data.AddDays(1);
-                    } while (data.DayOfWeek == DayOfWeek.Sunday);
-                }
+                data = ZwrocNajblizszaData(data, 'S');
                 data = data.AddDays(-((int)data.DayOfWeek - 1));
                 return PlanNaTydzienWykladowca(data, data.AddDays(6), id_uzytkownika); 
             }
             return null;
+        }
+
+        public List<PlanDniaModel> PlanKokpit(int id_uzytkownika, string kod_roli)
+        {
+            DateTime data = DateTime.Now;
+            DateTime data_do;
+            List<PlanDniaModel> plan = new List<PlanDniaModel>();
+            if (kod_roli == "student")
+            {
+                char tryb = (new DaneUzytkownikaService()).ZwrocTrybStudiowUzytkownika(id_uzytkownika);
+                if (tryb != 'S' && tryb != 'Z') return null;
+                data = ZwrocNajblizszaData(data, tryb);
+                data_do = ZwrocNajblizszaData(data.AddDays(1), tryb);
+                GrupaSemestr gs = (new DaneUzytkownikaService()).ZwrocIdGrupyUzytkownika(id_uzytkownika);
+                plan.Add(PlanNaDzienStudent(data, gs.id_semestru, gs.id_grupy));
+                plan.Add(PlanNaDzienStudent(data_do, gs.id_semestru, gs.id_grupy));
+            }
+            else if (kod_roli == "wykladowca")
+            {
+                data_do = data.AddDays(1);
+                int id_danych_osobowych= (new DaneUzytkownikaService()).ZwrocIdDanychOsobowych(id_uzytkownika);
+                if (id_danych_osobowych < 1) return null;
+                plan.Add(PlanNaDzienWykladowca(data, id_danych_osobowych));
+                plan.Add(PlanNaDzienWykladowca(data_do, id_danych_osobowych));
+            }
+            return plan;
+        }
+
+        DateTime ZwrocNajblizszaData(DateTime data, char tryb)
+        {
+            DateTime data_wynik = data;
+            if (tryb == 'S')
+            {
+                if (data_wynik.DayOfWeek == DayOfWeek.Saturday || data_wynik.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    do
+                    {
+                        data_wynik = data_wynik.AddDays(1);
+                    } while (data_wynik.DayOfWeek == DayOfWeek.Sunday);
+                }
+            }
+            else if (tryb == 'Z')
+            {
+                if (data_wynik.DayOfWeek != DayOfWeek.Saturday && data_wynik.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    do
+                    {
+                        data_wynik = data_wynik.AddDays(1);
+                    } while (data_wynik.DayOfWeek != DayOfWeek.Saturday);
+                }
+            }
+            return data_wynik;
         }
 
         public PlanTygodniaModel PlanNaTydzienWybranegoStudenta(DateTime dataOd, DateTime dataDo, int id_uzytkownika)

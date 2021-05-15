@@ -51,11 +51,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AktualnosciPowiadomieniaController .cs" />
+    <Compile Include="Controllers\KokpitController.cs" />
     <Compile Include="Controllers\LogowanieRejestracjaController.cs" />
     <Compile Include="Dane\AktualnosciPowiadomieniaRes.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AktualnosciPowiadomieniaRes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Dane\KokpitRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KokpitRes.resx</DependentUpon>
     </Compile>
     <Compile Include="Dane\LogowanieRejestracjaRes.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -65,6 +71,7 @@
     <Compile Include="Models\AktualnosciPowiadomienia\AktualnoscPowiadomienieModel.cs" />
     <Compile Include="Models\AktualnosciPowiadomienia\TopListAktualnosciPowiadomienModel.cs" />
     <Compile Include="Models\AktualnosciPowiadomienia\ZapytanieAktualnosciPowiadomieniaModel.cs" />
+    <Compile Include="Models\Kokpit\KokpitModel.cs" />
     <Compile Include="Models\LogowanieRejestracja\InformacjaZwrotnaKodModel.cs" />
     <Compile Include="Models\LogowanieRejestracja\LogowanieModel.cs" />
     <Compile Include="Models\LogowanieRejestracja\WygenerowanyKodModel.cs" />
@@ -72,12 +79,17 @@
     <Compile Include="Models\LogowanieRejestracja\ZmienHasloModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AktualnosciPowiadomieniaService .cs" />
+    <Compile Include="Services\KokpitService.cs" />
     <Compile Include="Services\LogowanieRejestracjaService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PlanZajec\PlanZajec.csproj">
+      <Project>{01A1E990-DDD9-4912-8767-E62398713D79}</Project>
+      <Name>PlanZajec</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{99D4186E-DF2F-43CD-B88B-ED08B992299A}</Project>
       <Name>Shared</Name>
@@ -87,6 +99,10 @@
     <EmbeddedResource Include="Dane\AktualnosciPowiadomieniaRes.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AktualnosciPowiadomieniaRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dane\KokpitRes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>KokpitRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Dane\LogowanieRejestracjaRes.resx">
       <Generator>ResXFileCodeGenerator</Generator>

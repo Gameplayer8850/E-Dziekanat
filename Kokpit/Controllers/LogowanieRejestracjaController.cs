@@ -21,7 +21,7 @@ namespace Kokpit.Controllers
         /// <returns></returns>
         [Route("zaloguj")]
         [HttpPost]
-        public AutoryzacjaModel zaloguj([FromBody] LogowanieModel model)
+        public AutoryzacjaModel Zaloguj([FromBody] LogowanieModel model)
         {
             return (new LogowanieRejestracjaService()).Autoryzuj(model);
         }
