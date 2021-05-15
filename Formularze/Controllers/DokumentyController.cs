@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Shared.Models.Autoryzacja;
+using System.Net.Http;
 
 namespace Kokpit.Controllers
 {
@@ -15,9 +16,17 @@ namespace Kokpit.Controllers
     {
         [Route("dokumenty")]
         [HttpPost]
-        public void DodajDokument()
+        public TopListDokumentowModel TopNajnowszychDokumentow([FromBody] ZapytanieTopNajnowszychDokumentowModel model)
         {
-            new DokumentyService().DodajDokument();
+            //return (new DokumentyService().ZwrocTopNajnowszychDokumentow(model));
+            return (new DokumentyService().ZwrocTopNajnowszychDokumentow(model));
+        }
+
+        [Route("dokumenty/pobierz")]
+        [HttpGet]
+        public HttpResponseMessage PobierzDokument([FromBody] ZapytaniePobierzDokumentModel model)
+        {
+            return (new DokumentyService().PobierzDokument(model));
         }
     }
 }
