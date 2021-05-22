@@ -21,7 +21,6 @@ namespace Formularze.Services
     {
         private static string formatDaty = "yyyy-MM-dd HH:mm:ss:fff";
         
-
         public TopListDokumentowModel ZwrocTopNajnowszychDokumentow(ZapytanieTopNajnowszychDokumentowModel model)
         {
             DataTable dt = WczytajTopDokumentowZBazyDanych(model.Ilosc);
@@ -34,23 +33,13 @@ namespace Formularze.Services
             }
             else return null;
         }
-
         public HttpResponseMessage PobierzDokument(ZapytaniePobierzDokumentModel model)
         {
             DataTable dt = WczytajDokumentPoId_dokumentu(model.Id_dokumentu);
-            if (dt != null && dt.Rows.Count > 0)
-            {
-                foreach(DataRow row in dt.Rows)
-                {
-                    return MemoryStreamDokumentu(ObjectToByteArray(row["plik"]), row["nazwa_dokumentu"].ToString());
-                }
-                return null;
-            }
-            else return null;
+            if (dt != null && dt.Rows.Count > 0){
+                return MemoryStreamDokumentu(ObjectToByteArray(dt.Rows[0][4]), dt.Rows[0][1].ToString());
+            }else return null;
         }
-
-
-
         public List<DokumentModel> KonwertujDataTableNaDokumentListModel(DataTable dt)
         {
             List<DokumentModel> list = new List<DokumentModel>();
@@ -58,16 +47,15 @@ namespace Formularze.Services
             {
                 list.Add(new DokumentModel
                 {
+                    Id_dokumentu = Convert.ToInt32(row["id_dokumentu"]),
                     Nazwa_dokumentu = row["Nazwa_dokumentu"].ToString(),
                     Data_modyfikacji_pliku = Convert.ToDateTime(row["data_modyfikacji_pliku"]),
                     Data_wrzuceniu_pliku = Convert.ToDateTime(row["data_wrzucenia_pliku"]),
                     Przesylajacy = ZnajdzPrzesylajacegoPoId_przesylajacego(Convert.ToInt32(row["id_przesylajacego"])),
-                    //Plik = MemoryStreamDokumentu(ObjectToByteArray(row["plik"]))
                 });
             }
             return list;
         }
-
         public DataTable WczytajDokumentPoId_dokumentu(int id_dokumentu)
         {
             SqlCommand command = new SqlCommand(DokumentyRes.ResourceManager.GetString("SqlCmdPobierzDokument"));
@@ -89,7 +77,6 @@ namespace Formularze.Services
                 return dt;
             }else return null;
         }
-
         public string ZnajdzPrzesylajacegoPoId_przesylajacego(int id_przesylajacego)
         {
             SqlCommand command = new SqlCommand(DokumentyRes.ResourceManager.GetString("SqlCmdZnajdzPrzesylajacegoPoId_przesylajacego"));
@@ -100,19 +87,16 @@ namespace Formularze.Services
                 return dt.Rows[0][0].ToString() + " " + dt.Rows[0][1].ToString();
             }
             else return null;
-
         }
-
         public HttpResponseMessage MemoryStreamDokumentu(byte[] plikByte, string nazwa_dokumentu)
         {
+            MemoryStream plikMemoryStream = new MemoryStream(plikByte,0,plikByte.Length);
             var result = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            string nazwa_pliku = nazwa_dokumentu;
-            MemoryStream plikMemoryStream = new MemoryStream(plikByte);
-
             result.Content = new StreamContent(plikMemoryStream);
+
             var headers = result.Content.Headers;
             headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-            headers.ContentDisposition.FileName = nazwa_pliku;
+            headers.ContentDisposition.FileName = nazwa_dokumentu;
             headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
             headers.ContentLength = plikMemoryStream.Length;
             return result;
@@ -143,7 +127,6 @@ namespace Formularze.Services
                 Math.Min(name.Length, underLine.Length)));
             System.Diagnostics.Debug.WriteLine(BitConverter.ToString(bytes));
         }
-
         public void DodajDokument()
         {
             string nazwa_dokumentu = "Dokument_1.txt";
@@ -163,6 +146,5 @@ namespace Formularze.Services
             command.Parameters.Add(new SqlParameter("id_przesylajacego", id_przesylajacego));
             BdPolaczenie.ZwrocDane(command);
         }
-
     }
 }
