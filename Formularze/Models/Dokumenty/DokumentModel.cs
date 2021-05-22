@@ -9,6 +9,7 @@ namespace Formularze.Models.Dokumenty
 {
     public class DokumentModel
     {
+        public int Id_dokumentu { get; set; }
         public string Nazwa_dokumentu { get; set; }
         public DateTime Data_modyfikacji_pliku { get; set; }
         public DateTime Data_wrzuceniu_pliku { get; set; }

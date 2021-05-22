@@ -47,6 +47,7 @@ namespace Formularze.Services
             {
                 list.Add(new DokumentModel
                 {
+                    Id_dokumentu = Convert.ToInt32(row["id_dokumentu"]),
                     Nazwa_dokumentu = row["Nazwa_dokumentu"].ToString(),
                     Data_modyfikacji_pliku = Convert.ToDateTime(row["data_modyfikacji_pliku"]),
                     Data_wrzuceniu_pliku = Convert.ToDateTime(row["data_wrzucenia_pliku"]),
@@ -89,7 +90,7 @@ namespace Formularze.Services
         }
         public HttpResponseMessage MemoryStreamDokumentu(byte[] plikByte, string nazwa_dokumentu)
         {
-            MemoryStream plikMemoryStream = new MemoryStream(plikByte);
+            MemoryStream plikMemoryStream = new MemoryStream(plikByte,0,plikByte.Length);
             var result = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             result.Content = new StreamContent(plikMemoryStream);
 
