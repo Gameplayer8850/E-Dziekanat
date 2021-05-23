@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,17 +69,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AnkietaController.cs" />
     <Compile Include="Controllers\DokumentyController.cs" />
+    <Compile Include="Dane\AnkietaRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AnkietaRes.resx</DependentUpon>
+    </Compile>
     <Compile Include="Dane\DokumentyRes.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DokumentyRes.resx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ankiety\AnkietaModel.cs" />
+    <Compile Include="Models\Ankiety\WyborModel.cs" />
     <Compile Include="Models\Dokumenty\DokumentModel.cs" />
     <Compile Include="Models\Dokumenty\TopListDokumentowModel.cs" />
     <Compile Include="Models\Dokumenty\ZapytaniePobierzDokumentModel.cs" />
     <Compile Include="Models\Dokumenty\ZapytanieTopNajnowszychDokumentowModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AnkietaService.cs" />
     <Compile Include="Services\DokumentyService.cs" />
   </ItemGroup>
   <ItemGroup />
@@ -92,6 +103,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Dane\AnkietaRes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AnkietaRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dane\DokumentyRes.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DokumentyRes.Designer.cs</LastGenOutput>
