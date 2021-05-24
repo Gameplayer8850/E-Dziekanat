@@ -14,6 +14,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Formularze.Services
 {
@@ -37,7 +38,7 @@ namespace Formularze.Services
         {
             DataTable dt = WczytajDokumentPoId_dokumentu(model.Id_dokumentu);
             if (dt != null && dt.Rows.Count > 0){
-                return MemoryStreamDokumentu(ObjectToByteArray(dt.Rows[0][4]), dt.Rows[0][1].ToString());
+                return MemoryStreamDokumentu((byte[])dt.Rows[0][4], dt.Rows[0][1].ToString());
             }else return null;
         }
         public List<DokumentModel> KonwertujDataTableNaDokumentListModel(DataTable dt)
@@ -90,6 +91,7 @@ namespace Formularze.Services
         }
         public HttpResponseMessage MemoryStreamDokumentu(byte[] plikByte, string nazwa_dokumentu)
         {
+            //WriteByteArray(plikByte, "");
             MemoryStream plikMemoryStream = new MemoryStream(plikByte,0,plikByte.Length);
             var result = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             result.Content = new StreamContent(plikMemoryStream);
@@ -118,6 +120,11 @@ namespace Formularze.Services
                 return ms.ToArray();
             }
         }
+        byte[] ObjectToByteArray2(object obj)
+        {
+            return Convert.FromBase64String(obj.ToString());
+        }
+
         public static void WriteByteArray(byte[] bytes, string name)
         {
             const string underLine = "--------------------------------";
@@ -127,9 +134,10 @@ namespace Formularze.Services
                 Math.Min(name.Length, underLine.Length)));
             System.Diagnostics.Debug.WriteLine(BitConverter.ToString(bytes));
         }
+
         public void DodajDokument()
         {
-            string nazwa_dokumentu = "Dokument_1.txt";
+            string nazwa_dokumentu = "Dokument_2.txt";
             DateTime data_modyfikacji_pliku = DateTime.Now;
             DateTime data_wrzucenia_pliku = DateTime.Now;
             int id_przesylajacego = 1;
