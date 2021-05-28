@@ -27,13 +27,13 @@ namespace PlanZajec.Services
                 {
                     data = ZwrocNajblizszaData(data, tryb);
                     data = data.AddDays(-((int)data.DayOfWeek - 1));
-                    return PlanNaTydzienWybranegoStudenta(data, data.AddDays(4), id_uzytkownika);
+                    return PlanNaTydzienWybranegoStudenta(data, data.AddDays(6), id_uzytkownika);
                 }
                 else if (tryb == 'Z')
                 {
                     data = ZwrocNajblizszaData(data, tryb);
                     data = data.AddDays(-((int)data.DayOfWeek - 6));
-                    return PlanNaTydzienWybranegoStudenta(data, data.AddDays(1), id_uzytkownika);
+                    return PlanNaTydzienWybranegoStudenta(data.AddDays(-5), data.AddDays(1), id_uzytkownika);
                 }
                 return null;
             }
