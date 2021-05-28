@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
+
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -15,6 +16,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+
+
 
 namespace Formularze.Services
 {
@@ -40,6 +43,19 @@ namespace Formularze.Services
             if (dt != null && dt.Rows.Count > 0){
                 return MemoryStreamDokumentu((byte[])dt.Rows[0][4], dt.Rows[0][1].ToString());
             }else return null;
+        }
+        public System.Web.Mvc.FileResult PobierzDokument2(ZapytaniePobierzDokumentModel model)
+        {
+            DataTable dt = WczytajDokumentPoId_dokumentu(model.Id_dokumentu);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                return new System.Web.Mvc.FileContentResult((byte[])dt.Rows[0][4], "MIMEType")
+                {
+                    FileDownloadName = "FileName"
+                }; 
+            }
+            else return null;
+            
         }
         public List<DokumentModel> KonwertujDataTableNaDokumentListModel(DataTable dt)
         {
@@ -89,6 +105,21 @@ namespace Formularze.Services
             }
             else return null;
         }
+
+
+        public HttpResponseMessage MemoryStreamPliku()
+        {
+            var path = @"C:\Users\Pszemek\Desktop\Dokument_1.txt";
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            var ext = Path.GetExtension(path).ToLowerInvariant();
+            //return File(memory, "text/plain", "Dokument_1.txt");
+            return null;
+        }
         public HttpResponseMessage MemoryStreamDokumentu(byte[] plikByte, string nazwa_dokumentu)
         {
             //WriteByteArray(plikByte, "");
@@ -137,12 +168,12 @@ namespace Formularze.Services
 
         public void DodajDokument()
         {
-            string nazwa_dokumentu = "Dokument_2.txt";
+            string nazwa_dokumentu = "Laboratorium 1 Bazy danych.doc";
             DateTime data_modyfikacji_pliku = DateTime.Now;
             DateTime data_wrzucenia_pliku = DateTime.Now;
             int id_przesylajacego = 1;
 
-            byte[] plik = File.ReadAllBytes(@"C:\Users\Pszemek\Desktop\E-dziekanat\Projekt github\E-Dziekanat\Formularze\Services\test.txt");
+            byte[] plik = File.ReadAllBytes(@"C:\Users\Pszemek\Desktop\E-dziekanat\Projekt github\E-Dziekanat\Formularze\Services\Laboratorium 1 Bazy danych.doc");
 
             //byte[] plik = new byte[stream.Length];
 
