@@ -41,7 +41,7 @@ namespace Formularze.Services
         }
         public PlikModel PobierzDokument(ZapytaniePobierzDokumentModel model)
         {
-            DataTable dt = WczytajDokumentPoId_dokumentu(14);
+            DataTable dt = WczytajDokumentPoId_dokumentu(model.Id_dokumentu);
             if (dt != null && dt.Rows.Count > 0){
                 return new PlikModel
                 {
