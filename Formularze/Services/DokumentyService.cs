@@ -10,11 +10,13 @@ using System.Globalization;
 using System.IO;
 
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Xml.Serialization;
 
 
@@ -37,25 +39,24 @@ namespace Formularze.Services
             }
             else return null;
         }
-        public HttpResponseMessage PobierzDokument(ZapytaniePobierzDokumentModel model)
+        public PlikModel PobierzDokument(ZapytaniePobierzDokumentModel model)
         {
-            DataTable dt = WczytajDokumentPoId_dokumentu(model.Id_dokumentu);
+            DataTable dt = WczytajDokumentPoId_dokumentu(14);
             if (dt != null && dt.Rows.Count > 0){
-                return MemoryStreamDokumentu((byte[])dt.Rows[0][4], dt.Rows[0][1].ToString());
+                return new PlikModel
+                {
+                    Response = MemoryStreamDokumentu((byte[])dt.Rows[0][4], dt.Rows[0][1].ToString()),
+                    Nazwa_pliku = dt.Rows[0][1].ToString(),
+                    Content_type = "text/*"
+                };
+                //return MemoryStreamDokumentu((byte[])dt.Rows[0][4], dt.Rows[0][1].ToString());
             }else return null;
         }
-        public System.Web.Mvc.FileResult PobierzDokument2(ZapytaniePobierzDokumentModel model)
+
+        public byte[] PobierzTabliceByte(int id_dokumentu)
         {
-            DataTable dt = WczytajDokumentPoId_dokumentu(model.Id_dokumentu);
-            if (dt != null && dt.Rows.Count > 0)
-            {
-                return new System.Web.Mvc.FileContentResult((byte[])dt.Rows[0][4], "MIMEType")
-                {
-                    FileDownloadName = "FileName"
-                }; 
-            }
-            else return null;
-            
+            DataTable dt = WczytajDokumentPoId_dokumentu(id_dokumentu);
+            return (byte[])dt.Rows[0][4];
         }
         public List<DokumentModel> KonwertujDataTableNaDokumentListModel(DataTable dt)
         {
@@ -106,32 +107,16 @@ namespace Formularze.Services
             else return null;
         }
 
-
-        public HttpResponseMessage MemoryStreamPliku()
-        {
-            var path = @"C:\Users\Pszemek\Desktop\Dokument_1.txt";
-            var memory = new MemoryStream();
-            using (var stream = new FileStream(path, FileMode.Open))
-            {
-                stream.CopyToAsync(memory);
-            }
-            memory.Position = 0;
-            var ext = Path.GetExtension(path).ToLowerInvariant();
-            //return File(memory, "text/plain", "Dokument_1.txt");
-            return null;
-        }
         public HttpResponseMessage MemoryStreamDokumentu(byte[] plikByte, string nazwa_dokumentu)
         {
             //WriteByteArray(plikByte, "");
-            MemoryStream plikMemoryStream = new MemoryStream(plikByte,0,plikByte.Length);
-            var result = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            result.Content = new StreamContent(plikMemoryStream);
-
-            var headers = result.Content.Headers;
-            headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-            headers.ContentDisposition.FileName = nazwa_dokumentu;
-            headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
-            headers.ContentLength = plikMemoryStream.Length;
+            var plikMemoryStream = new MemoryStream(plikByte,0,plikByte.Length);
+            //var result = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            //result.Content = new StreamContent(plikMemoryStream);
+            var result = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new ByteArrayContent(plikByte)
+            };
             return result;
         }
         public void StworzDokumentZByteArray(byte[] plikByte)
@@ -140,22 +125,8 @@ namespace Formularze.Services
             WriteByteArray(plikByte, "xD");
             File.WriteAllBytes(destPath,plikByte);
         }
-        byte[] ObjectToByteArray(object obj)
-        {
-            if (obj == null)
-                return null;
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
-            }
-        }
-        byte[] ObjectToByteArray2(object obj)
-        {
-            return Convert.FromBase64String(obj.ToString());
-        }
-
+        
+        
         public static void WriteByteArray(byte[] bytes, string name)
         {
             const string underLine = "--------------------------------";
