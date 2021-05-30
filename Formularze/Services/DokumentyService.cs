@@ -8,12 +8,18 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
+
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Xml.Serialization;
+
+
 
 namespace Formularze.Services
 {
@@ -33,12 +39,24 @@ namespace Formularze.Services
             }
             else return null;
         }
-        public HttpResponseMessage PobierzDokument(ZapytaniePobierzDokumentModel model)
+        public PlikModel PobierzDokument(ZapytaniePobierzDokumentModel model)
         {
             DataTable dt = WczytajDokumentPoId_dokumentu(model.Id_dokumentu);
             if (dt != null && dt.Rows.Count > 0){
-                return MemoryStreamDokumentu(ObjectToByteArray(dt.Rows[0][4]), dt.Rows[0][1].ToString());
+                return new PlikModel
+                {
+                    Response = MemoryStreamDokumentu((byte[])dt.Rows[0][4], dt.Rows[0][1].ToString()),
+                    Nazwa_pliku = dt.Rows[0][1].ToString(),
+                    Content_type = "text/*"
+                };
+                //return MemoryStreamDokumentu((byte[])dt.Rows[0][4], dt.Rows[0][1].ToString());
             }else return null;
+        }
+
+        public byte[] PobierzTabliceByte(int id_dokumentu)
+        {
+            DataTable dt = WczytajDokumentPoId_dokumentu(id_dokumentu);
+            return (byte[])dt.Rows[0][4];
         }
         public List<DokumentModel> KonwertujDataTableNaDokumentListModel(DataTable dt)
         {
@@ -88,17 +106,17 @@ namespace Formularze.Services
             }
             else return null;
         }
+
         public HttpResponseMessage MemoryStreamDokumentu(byte[] plikByte, string nazwa_dokumentu)
         {
-            MemoryStream plikMemoryStream = new MemoryStream(plikByte,0,plikByte.Length);
-            var result = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            result.Content = new StreamContent(plikMemoryStream);
-
-            var headers = result.Content.Headers;
-            headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-            headers.ContentDisposition.FileName = nazwa_dokumentu;
-            headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
-            headers.ContentLength = plikMemoryStream.Length;
+            //WriteByteArray(plikByte, "");
+            var plikMemoryStream = new MemoryStream(plikByte,0,plikByte.Length);
+            //var result = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            //result.Content = new StreamContent(plikMemoryStream);
+            var result = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new ByteArrayContent(plikByte)
+            };
             return result;
         }
         public void StworzDokumentZByteArray(byte[] plikByte)
@@ -107,17 +125,8 @@ namespace Formularze.Services
             WriteByteArray(plikByte, "xD");
             File.WriteAllBytes(destPath,plikByte);
         }
-        byte[] ObjectToByteArray(object obj)
-        {
-            if (obj == null)
-                return null;
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
-            }
-        }
+        
+        
         public static void WriteByteArray(byte[] bytes, string name)
         {
             const string underLine = "--------------------------------";
@@ -127,14 +136,15 @@ namespace Formularze.Services
                 Math.Min(name.Length, underLine.Length)));
             System.Diagnostics.Debug.WriteLine(BitConverter.ToString(bytes));
         }
+
         public void DodajDokument()
         {
-            string nazwa_dokumentu = "Dokument_1.txt";
+            string nazwa_dokumentu = "Laboratorium 1 Bazy danych.doc";
             DateTime data_modyfikacji_pliku = DateTime.Now;
             DateTime data_wrzucenia_pliku = DateTime.Now;
             int id_przesylajacego = 1;
 
-            byte[] plik = File.ReadAllBytes(@"C:\Users\Pszemek\Desktop\E-dziekanat\Projekt github\E-Dziekanat\Formularze\Services\test.txt");
+            byte[] plik = File.ReadAllBytes(@"C:\Users\Pszemek\Desktop\E-dziekanat\Projekt github\E-Dziekanat\Formularze\Services\Laboratorium 1 Bazy danych.doc");
 
             //byte[] plik = new byte[stream.Length];
 
