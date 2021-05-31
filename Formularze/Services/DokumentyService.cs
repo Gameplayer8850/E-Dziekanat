@@ -57,12 +57,6 @@ namespace Formularze.Services
                 return result;
             }else return null;
         }
-
-        public byte[] PobierzTabliceByte(int id_dokumentu)
-        {
-            DataTable dt = WczytajDokumentPoId_dokumentu(id_dokumentu);
-            return (byte[])dt.Rows[0][4];
-        }
         public List<DokumentModel> KonwertujDataTableNaDokumentListModel(DataTable dt)
         {
             List<DokumentModel> list = new List<DokumentModel>();
@@ -111,43 +105,6 @@ namespace Formularze.Services
                 return dt.Rows[0][0].ToString() + " " + dt.Rows[0][1].ToString();
             }
             else return null;
-        }
-        public void StworzDokumentZByteArray(byte[] plikByte)
-        {
-            string destPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "/temp/", "test.txt");
-            WriteByteArray(plikByte, "xD");
-            File.WriteAllBytes(destPath,plikByte);
-        }
-        
-        
-        public static void WriteByteArray(byte[] bytes, string name)
-        {
-            const string underLine = "--------------------------------";
-
-            System.Diagnostics.Debug.WriteLine(name);
-            System.Diagnostics.Debug.WriteLine(underLine.Substring(0,
-                Math.Min(name.Length, underLine.Length)));
-            System.Diagnostics.Debug.WriteLine(BitConverter.ToString(bytes));
-        }
-
-        public void DodajDokument()
-        {
-            string nazwa_dokumentu = "Laboratorium 1 Bazy danych.doc";
-            DateTime data_modyfikacji_pliku = DateTime.Now;
-            DateTime data_wrzucenia_pliku = DateTime.Now;
-            int id_przesylajacego = 1;
-
-            byte[] plik = File.ReadAllBytes(@"C:\Users\Pszemek\Desktop\E-dziekanat\Projekt github\E-Dziekanat\Formularze\Services\Laboratorium 1 Bazy danych.doc");
-
-            //byte[] plik = new byte[stream.Length];
-
-            SqlCommand command = new SqlCommand(DokumentyRes.ResourceManager.GetString("SqlCmdDodajDokument"));
-            command.Parameters.Add(new SqlParameter("nazwa_dokumentu", nazwa_dokumentu));
-            command.Parameters.Add(new SqlParameter("data_modyfikacji_pliku", data_modyfikacji_pliku));
-            command.Parameters.Add(new SqlParameter("data_wrzucenia_pliku", data_wrzucenia_pliku));
-            command.Parameters.Add(new SqlParameter("plik", plik));
-            command.Parameters.Add(new SqlParameter("id_przesylajacego", id_przesylajacego));
-            BdPolaczenie.ZwrocDane(command);
         }
     }
 }
