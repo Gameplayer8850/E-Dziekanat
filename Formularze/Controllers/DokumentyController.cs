@@ -21,7 +21,6 @@ namespace Kokpit.Controllers
         [HttpPost]
         public TopListDokumentowModel TopNajnowszychDokumentow([FromBody] ZapytanieTopNajnowszychDokumentowModel model)
         {
-            //return (new DokumentyService().ZwrocTopNajnowszychDokumentow(model));
             return (new DokumentyService().ZwrocTopNajnowszychDokumentow(model));
         }
 

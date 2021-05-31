@@ -17,6 +17,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Xml.Serialization;
 
@@ -39,6 +40,11 @@ namespace Formularze.Services
                 };
             }
             else return null;
+        }
+
+        public string StworzUrlDoPlikPath(string plik_path)
+        {
+            return HttpContext.Current.Request.Url.Host + plik_path;
         }
         public HttpResponseMessage PobierzDokument(ZapytaniePobierzDokumentModel model)
         {
@@ -68,7 +74,7 @@ namespace Formularze.Services
                     Nazwa_dokumentu = row["Nazwa_dokumentu"].ToString(),
                     Data_modyfikacji_pliku = Convert.ToDateTime(row["data_modyfikacji_pliku"]),
                     Data_wrzuceniu_pliku = Convert.ToDateTime(row["data_wrzucenia_pliku"]),
-                    Plik_path = row["plik_path"].ToString() + @"\" + row["Nazwa_dokumentu"].ToString(),
+                    Plik_path = HttpContext.Current.Request.Url.Host + row["plik_path"].ToString(),
                     Przesylajacy = ZnajdzPrzesylajacegoPoId_przesylajacego(Convert.ToInt32(row["id_przesylajacego"])),
                 });
             }
