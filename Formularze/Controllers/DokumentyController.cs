@@ -29,13 +29,7 @@ namespace Kokpit.Controllers
         [HttpGet]
         public IHttpActionResult PobierzDokument([FromBody] ZapytaniePobierzDokumentModel model)
         {
-            PlikModel plik = new DokumentyService().PobierzDokument(model);
-            plik.Response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
-            {
-                FileName = plik.Nazwa_pliku
-            };
-            plik.Response.Content.Headers.ContentType = new MediaTypeHeaderValue(plik.Content_type);
-            return ResponseMessage(plik.Response);
+            return ResponseMessage(new DokumentyService().PobierzDokument(model));
         }
 
         [Route("dokumenty/pobierz2")]
