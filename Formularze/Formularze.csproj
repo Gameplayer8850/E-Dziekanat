@@ -107,7 +107,6 @@
     <Compile Include="Models\Ankiety\WyborModel.cs" />
     <Compile Include="Models\Ankiety\ZwrocAnkieteModel.cs" />
     <Compile Include="Models\Dokumenty\DokumentModel.cs" />
-    <Compile Include="Models\Dokumenty\PlikModel.cs" />
     <Compile Include="Models\Dokumenty\TopListDokumentowModel.cs" />
     <Compile Include="Models\Dokumenty\ZapytaniePobierzDokumentModel.cs" />
     <Compile Include="Models\Dokumenty\ZapytanieTopNajnowszychDokumentowModel.cs" />

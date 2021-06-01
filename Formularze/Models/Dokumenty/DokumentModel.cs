@@ -13,7 +13,7 @@ namespace Formularze.Models.Dokumenty
         public string Nazwa_dokumentu { get; set; }
         public DateTime Data_modyfikacji_pliku { get; set; }
         public DateTime Data_wrzuceniu_pliku { get; set; }
-        
+        public string Plik_path { get; set; }
         public string Przesylajacy { get; set; }
     }
 }
