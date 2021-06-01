@@ -27,8 +27,6 @@ namespace Formularze.Services
 {
     class DokumentyService
     {
-        private static string formatDaty = "yyyy-MM-dd HH:mm:ss:fff";
-        
         public TopListDokumentowModel ZwrocTopNajnowszychDokumentow(ZapytanieTopNajnowszychDokumentowModel model)
         {
             DataTable dt = WczytajTopDokumentowZBazyDanych(model.Ilosc);
@@ -41,32 +39,14 @@ namespace Formularze.Services
             }
             else return null;
         }
-        public HttpResponseMessage PobierzDokument2(ZapytaniePobierzDokumentModel model)
-        {
-            DataTable dt = WczytajDokumentPoId_dokumentu(model.Id_dokumentu);
-            if (dt != null && dt.Rows.Count > 0){
-
-                var result = new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new ByteArrayContent((byte[])dt.Rows[0][4])
-                };
-                result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
-                {
-                    FileName = dt.Rows[0][1].ToString()
-                };
-                result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/*");
-                return result;
-            }else return null;
-        }
         public HttpResponseMessage PobierzDokument(int id)
         {
             DataTable dt = WczytajDokumentPoId_dokumentu(id);
             if (dt != null && dt.Rows.Count > 0)
             {
-                byte[] plikByte = File.ReadAllBytes(dt.Rows[0][4].ToString());
                 var result = new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Content = new ByteArrayContent(plikByte)
+                    Content = new ByteArrayContent(File.ReadAllBytes(dt.Rows[0][4].ToString()))
                 };
                 result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
                 {
@@ -88,7 +68,7 @@ namespace Formularze.Services
                     Nazwa_dokumentu = row["Nazwa_dokumentu"].ToString(),
                     Data_modyfikacji_pliku = Convert.ToDateTime(row["data_modyfikacji_pliku"]),
                     Data_wrzuceniu_pliku = Convert.ToDateTime(row["data_wrzucenia_pliku"]),
-                    Plik_path = HttpContext.Current.Request.Url.AbsoluteUri + @"pobierz/" + Convert.ToInt32(row["id_dokumentu"]),
+                    Plik_path = HttpContext.Current.Request.Url.AbsoluteUri + @"/pobierz/" + Convert.ToInt32(row["id_dokumentu"]),
                     Przesylajacy = ZnajdzPrzesylajacegoPoId_przesylajacego(Convert.ToInt32(row["id_przesylajacego"])),
                 });
             }
