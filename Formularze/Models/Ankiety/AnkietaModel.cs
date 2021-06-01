@@ -15,7 +15,7 @@ namespace Formularze.Models.Ankiety
         public bool CzyWlasneOdp { get; set; }
         public DateTime DataUtworzenia { get; set; }
         public string ImieNazwisko { get; set; }
-        public int IdWybranego { get; set; }
-        List<WyborModel> wybory { get; set; }
+        public List<WyborModel> wybory { get; set; }
+        public int IdWyboru { get; set; }
     }
 }

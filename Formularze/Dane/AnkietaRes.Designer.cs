@@ -59,5 +59,90 @@ namespace Formularze.Dane {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select id_ankiety, tresc, data_od, data_do, czy_wlasne_odpowiedzi, data_utworzenia, (imie+&apos; &apos;+nazwisko) as tworca from Ankiety_tresc
+        ///left join dane_osobowe on Ankiety_tresc.id_tworcy=dane_osobowe.id_danych_osobowych
+        ///where id_ankiety=@id_ankiety and (id_tworcy=@id_uzytkownika or id_ankiety in (select distinct id_ankiety from uprawnienia where id_osoby=@id_osoby or id_grupy=@id_grupy)).
+        /// </summary>
+        internal static string sqlCmdAnkietaPoId {
+            get {
+                return ResourceManager.GetString("sqlCmdAnkietaPoId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top 1 czy_wlasne_odpowiedzi from Ankiety_tresc where id_ankiety=@id_ankiety.
+        /// </summary>
+        internal static string sqlCmdCzyMoznaDodawacOdp {
+            get {
+                return ResourceManager.GetString("sqlCmdCzyMoznaDodawacOdp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select top 1 id_uprawnienia from uprawnienia 
+        ///left join Ankiety_tresc on Ankiety_tresc.id_ankiety=uprawnienia.id_ankiety
+        ///where Ankiety_tresc.id_ankiety=@id_ankiety and (id_osoby=@id_osoby or id_grupy=@id_grupy) and data_od&lt;=GETDATE() and data_do&gt;=GETDATE().
+        /// </summary>
+        internal static string sqlCmdCzyUprawnienieDoAnkiety {
+            get {
+                return ResourceManager.GetString("sqlCmdCzyUprawnienieDoAnkiety", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu insert into Ankieta_wybory(tresc, id_ankiety, data_dodania, id_tworcy) values(@tresc, @id_ankiety, GETDATE(), @id_uzytkownika);
+        ///select SCOPE_IDENTITY();.
+        /// </summary>
+        internal static string sqlCmdDodajWlasnaOdp {
+            get {
+                return ResourceManager.GetString("sqlCmdDodajWlasnaOdp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select id_ankiety, tresc, data_od, data_do, czy_wlasne_odpowiedzi, data_utworzenia, (imie+&apos; &apos;+nazwisko) as tworca from Ankiety_tresc
+        ///left join dane_osobowe on Ankiety_tresc.id_tworcy=dane_osobowe.id_danych_osobowych
+        ///where id_tworcy=@id_uzytkownika or id_ankiety in (select distinct id_ankiety from uprawnienia where id_osoby=@id_osoby or id_grupy=@id_grupy)
+        ///order by data_utworzenia, data_od.
+        /// </summary>
+        internal static string sqlCmdListaAnkietDlaUzytkownika {
+            get {
+                return ResourceManager.GetString("sqlCmdListaAnkietDlaUzytkownika", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select Ankieta_glosowanie.id_wyboru from Ankieta_glosowanie
+        ///left join Ankieta_wybory on Ankieta_glosowanie.id_wyboru=Ankieta_wybory.id_wyboru
+        ///where id_ankiety=@id_ankiety and id_uzytkownika=@id_uzytkownika.
+        /// </summary>
+        internal static string sqlCmdTwojGlosAnkieta {
+            get {
+                return ResourceManager.GetString("sqlCmdTwojGlosAnkieta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu select id_wyboru, tresc from Ankieta_wybory where id_ankiety=@id_ankiety.
+        /// </summary>
+        internal static string sqlCmdWyboryDoAnkiety {
+            get {
+                return ResourceManager.GetString("sqlCmdWyboryDoAnkiety", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu delete from Ankieta_glosowanie where id_glosowania in (select id_glosowania from Ankieta_glosowanie 
+        ///left join Ankieta_wybory on Ankieta_wybory.id_wyboru=Ankieta_glosowanie.id_wyboru
+        ///where id_uzytkownika=@id_uzytkownika and id_ankiety=@id_ankiety);
+        ///insert into Ankieta_glosowanie(id_uzytkownika, id_wyboru, data_zaglosowania) values(@id_uzytkownika, @id_wyboru, GETDATE());.
+        /// </summary>
+        internal static string sqlCmdZaglosuj {
+            get {
+                return ResourceManager.GetString("sqlCmdZaglosuj", resourceCulture);
+            }
+        }
     }
 }
