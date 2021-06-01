@@ -38,7 +38,7 @@ namespace Formularze.Services
         {
             GrupaSemestr gs = (new DaneUzytkownikaService()).ZwrocIdGrupyUzytkownika(id_uzytkownika);
             int id_danych_osobowych = (new DaneUzytkownikaService()).ZwrocIdDanychOsobowych(id_uzytkownika);
-            SqlCommand command = new SqlCommand(AnkietaRes.ResourceManager.GetString("sqlCmdListaAnkietDlaUzytkownika"));
+            SqlCommand command = new SqlCommand(AnkietaRes.ResourceManager.GetString("sqlCmdAnkietaPoId"));
             command.Parameters.Add(new SqlParameter("id_osoby", id_danych_osobowych));
             command.Parameters.Add(new SqlParameter("id_uzytkownika", id_uzytkownika));
             command.Parameters.Add(new SqlParameter("id_grupy", gs.id_grupy));
@@ -97,6 +97,58 @@ namespace Formularze.Services
                 });
             }
             return wybory;
+        }
+
+        public int Wlasna_Odp(int id_uzytkownika, int id_ankiety, string tresc)
+        {
+            int result = 0;
+            if(Czy_moze_glosowac(id_uzytkownika, id_ankiety) && Czy_mozna_dodawac_wlasne_odp(id_ankiety))
+            {
+                SqlCommand command = new SqlCommand(AnkietaRes.ResourceManager.GetString("sqlCmdDodajWlasnaOdp"));
+                command.Parameters.Add(new SqlParameter("tresc", tresc));
+                command.Parameters.Add(new SqlParameter("id_ankiety", id_ankiety));
+                command.Parameters.Add(new SqlParameter("id_uzytkownika", id_uzytkownika));
+                DataTable dt = BdPolaczenie.ZwrocDane(command);
+                if (dt != null && dt.Rows.Count > 0) result = Convert.ToInt32(dt.Rows[0][0]!=DBNull.Value ? dt.Rows[0][0] : 0);
+                if (result > 0) Zaglosuj(id_uzytkownika, id_ankiety, result);
+            }
+            return result;
+        }
+        public bool Zaglosuj(int id_uzytkownika, int id_ankiety, int id_wyboru)
+        {
+            if (Czy_moze_glosowac(id_uzytkownika, id_ankiety))
+            {
+                SqlCommand command = new SqlCommand(AnkietaRes.ResourceManager.GetString("sqlCmdZaglosuj"));
+                command.Parameters.Add(new SqlParameter("id_ankiety", id_ankiety));
+                command.Parameters.Add(new SqlParameter("id_uzytkownika", id_uzytkownika));
+                command.Parameters.Add(new SqlParameter("id_wyboru", id_wyboru));
+                BdPolaczenie.ZwrocDane(command);
+                return true;
+            }
+            return false;
+        }
+
+        public bool Czy_moze_glosowac(int id_uzytkownika, int id_ankiety)
+        {
+            int id_grupy = (new DaneUzytkownikaService()).ZwrocIdGrupyUzytkownika(id_uzytkownika).id_grupy;
+            int id_danych_osobowych = (new DaneUzytkownikaService()).ZwrocIdDanychOsobowych(id_uzytkownika);
+            SqlCommand command = new SqlCommand(AnkietaRes.ResourceManager.GetString("sqlCmdCzyUprawnienieDoAnkiety"));
+            command.Parameters.Add(new SqlParameter("id_ankiety", id_ankiety));
+            command.Parameters.Add(new SqlParameter("id_osoby", id_danych_osobowych));
+            command.Parameters.Add(new SqlParameter("id_grupy", id_grupy));
+            DataTable dt = BdPolaczenie.ZwrocDane(command);
+            if (dt != null && dt.Rows.Count > 0) return true;
+            else return false;
+        }
+
+        public bool Czy_mozna_dodawac_wlasne_odp(int id_ankiety)
+        {
+            bool result = false;
+            SqlCommand command = new SqlCommand(AnkietaRes.ResourceManager.GetString("sqlCmdCzyMoznaDodawacOdp"));
+            command.Parameters.Add(new SqlParameter("id_ankiety", id_ankiety));
+            DataTable dt = BdPolaczenie.ZwrocDane(command);
+            if (dt != null && dt.Rows.Count > 0) result = Convert.ToBoolean(dt.Rows[0][0]);
+            return result;
         }
     }
 }

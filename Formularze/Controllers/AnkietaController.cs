@@ -26,5 +26,19 @@ namespace Formularze.Controllers
         {
             return new AnkietaService().Zwroc_ankiete(autoryzacja.Id_uzytkownika, autoryzacja.IdAnkiety);
         }
+
+        [Route("wlasna_odpowiedz")]
+        [HttpPost]
+        public int Dodaj_wlasna_odp([FromBody] GlosowanieModel wybor)
+        {
+            return new AnkietaService().Wlasna_Odp(wybor.Id_uzytkownika, wybor.IdAnkiety, wybor.Tresc);
+        }
+
+        [Route("zaglosuj")]
+        [HttpPost]
+        public bool Zaglosuj([FromBody] GlosowanieModel wybor)
+        {
+            return new AnkietaService().Zaglosuj(wybor.Id_uzytkownika, wybor.IdAnkiety, wybor.IdWyboru);
+        }
     }
 }

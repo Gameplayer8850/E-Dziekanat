@@ -103,6 +103,7 @@
       <DependentUpon>DokumentyRes.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\Ankiety\AnkietaModel.cs" />
+    <Compile Include="Models\Ankiety\GlosowanieModel.cs" />
     <Compile Include="Models\Ankiety\WyborModel.cs" />
     <Compile Include="Models\Ankiety\ZwrocAnkieteModel.cs" />
     <Compile Include="Models\Dokumenty\DokumentModel.cs" />
