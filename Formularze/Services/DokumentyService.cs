@@ -41,12 +41,7 @@ namespace Formularze.Services
             }
             else return null;
         }
-
-        public string StworzUrlDoPlikPath(string plik_path)
-        {
-            return HttpContext.Current.Request.Url.Host + plik_path;
-        }
-        public HttpResponseMessage PobierzDokument(ZapytaniePobierzDokumentModel model)
+        public HttpResponseMessage PobierzDokument2(ZapytaniePobierzDokumentModel model)
         {
             DataTable dt = WczytajDokumentPoId_dokumentu(model.Id_dokumentu);
             if (dt != null && dt.Rows.Count > 0){
@@ -63,6 +58,25 @@ namespace Formularze.Services
                 return result;
             }else return null;
         }
+        public HttpResponseMessage PobierzDokument(int id)
+        {
+            DataTable dt = WczytajDokumentPoId_dokumentu(id);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                byte[] plikByte = File.ReadAllBytes(dt.Rows[0][4].ToString());
+                var result = new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new ByteArrayContent(plikByte)
+                };
+                result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = dt.Rows[0][1].ToString()
+                };
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/*");
+                return result;
+            }
+            else return null;
+        }
         public List<DokumentModel> KonwertujDataTableNaDokumentListModel(DataTable dt)
         {
             List<DokumentModel> list = new List<DokumentModel>();
@@ -74,7 +88,7 @@ namespace Formularze.Services
                     Nazwa_dokumentu = row["Nazwa_dokumentu"].ToString(),
                     Data_modyfikacji_pliku = Convert.ToDateTime(row["data_modyfikacji_pliku"]),
                     Data_wrzuceniu_pliku = Convert.ToDateTime(row["data_wrzucenia_pliku"]),
-                    Plik_path = HttpContext.Current.Request.Url.Host + row["plik_path"].ToString(),
+                    Plik_path = HttpContext.Current.Request.Url.AbsoluteUri + @"pobierz/" + Convert.ToInt32(row["id_dokumentu"]),
                     Przesylajacy = ZnajdzPrzesylajacegoPoId_przesylajacego(Convert.ToInt32(row["id_przesylajacego"])),
                 });
             }

@@ -23,12 +23,20 @@ namespace Kokpit.Controllers
         {
             return (new DokumentyService().ZwrocTopNajnowszychDokumentow(model));
         }
-
+        /*
         [Route("dokumenty/pobierz")]
         [HttpGet]
         public IHttpActionResult PobierzDokument([FromBody] ZapytaniePobierzDokumentModel model)
         {
             return ResponseMessage(new DokumentyService().PobierzDokument(model));
+        }
+        */
+
+        [Route("dokumenty/pobierz/{id?}")]
+        [HttpGet]
+        public IHttpActionResult PobierzDokument(int id)
+        {
+            return ResponseMessage(new DokumentyService().PobierzDokument(id));
         }
     }
 }
