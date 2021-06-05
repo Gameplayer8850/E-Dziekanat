@@ -117,6 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="sqlCmdDodajZajecie" xml:space="preserve">
+    <value>insert into plan_zajec(id_planu, id_przedmiotu, dzien, godz_rozp, godz_zakon) values(@id_planu, @id_przedmiotu, Cast(@dzien as date), Cast(@godz_rozp as time), Cast(@godz_zakon as time))</value>
+  </data>
+  <data name="sqlCmdPodmienWersjePlanu" xml:space="preserve">
+    <value>update plan_wersja set czy_aktywana=0;
+insert into plan_wersja(nazwa, data_modyfikacji, czy_aktywana) values(@nazwa, @data, 1);
+Select SCOPE_IDENTITY();</value>
+  </data>
   <data name="sqlCmdZwrocPlanDlaGrupy" xml:space="preserve">
     <value>select godz_rozp, godz_zakon, przedmiot_informacje.nazwa, typ, imie, nazwisko, opis, link_do_kursu, dodatkowe_materialy, ilosc_godzin, ects, numer_semestru, grupy.nazwa from plan_zajec
 left join przedmioty on przedmioty.id_przedmiotu=plan_zajec.id_przedmiotu
@@ -124,7 +132,8 @@ left join przedmiot_informacje on przedmioty.id_informacji_przedmiotu=przedmiot_
 left join dane_osobowe on dane_osobowe.id_danych_osobowych=przedmioty.id_wykladowcy
 left join semestry on przedmioty.id_semestru=semestry.id_semestru
 left join grupy on przedmioty.id_grupy=grupy.id_grupy
-where dzien=@dzien and przedmioty.id_semestru=@id_semestru and (przedmioty.id_grupy is NULL or przedmioty.id_grupy=@id_grupy)
+left join plan_wersja on plan_wersja.id_planu=plan_zajec.id_planu
+where dzien=@dzien and przedmioty.id_semestru=@id_semestru and (przedmioty.id_grupy is NULL or przedmioty.id_grupy=@id_grupy) and czy_aktywana=1
 order by godz_rozp</value>
   </data>
   <data name="sqlCmdZwrocPlanWykladowcy" xml:space="preserve">
@@ -134,7 +143,8 @@ left join przedmiot_informacje on przedmioty.id_informacji_przedmiotu=przedmiot_
 left join dane_osobowe on dane_osobowe.id_danych_osobowych=przedmioty.id_wykladowcy
 left join semestry on przedmioty.id_semestru=semestry.id_semestru
 left join grupy on przedmioty.id_grupy=grupy.id_grupy
-where dzien=@dzien and przedmioty.id_wykladowcy=@id_uzytkownika
+left join plan_wersja on plan_wersja.id_planu=plan_zajec.id_planu
+where dzien=@dzien and przedmioty.id_wykladowcy=@id_uzytkownika and czy_aktywana=1
 order by godz_rozp</value>
   </data>
 </root>

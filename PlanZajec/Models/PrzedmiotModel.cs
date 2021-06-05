@@ -8,6 +8,7 @@ namespace PlanZajec.Models
 {
     public class PrzedmiotModel
     {
+        public int Id_przedmiotu { get; set; }
         public string Nazwa { get; set; }
         public string Typ { get; set; }
         public string ImieWykladowcy { get; set; }

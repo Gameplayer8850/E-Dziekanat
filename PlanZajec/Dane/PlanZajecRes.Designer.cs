@@ -61,6 +61,26 @@ namespace PlanZajec.Dane {
         }
         
         /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu insert into plan_zajec(id_planu, id_przedmiotu, dzien, godz_rozp, godz_zakon) values(@id_planu, @id_przedmiotu, Cast(@dzien as date), Cast(@godz_rozp as time), Cast(@godz_zakon as time)).
+        /// </summary>
+        internal static string sqlCmdDodajZajecie {
+            get {
+                return ResourceManager.GetString("sqlCmdDodajZajecie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu update plan_wersja set czy_aktywana=0;
+        ///insert into plan_wersja(nazwa, data_modyfikacji, czy_aktywana) values(@nazwa, @data, 1);
+        ///Select SCOPE_IDENTITY();.
+        /// </summary>
+        internal static string sqlCmdPodmienWersjePlanu {
+            get {
+                return ResourceManager.GetString("sqlCmdPodmienWersjePlanu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// Wyszukuje zlokalizowany ciąg podobny do ciągu select godz_rozp, godz_zakon, przedmiot_informacje.nazwa, typ, imie, nazwisko, opis, link_do_kursu, dodatkowe_materialy, ilosc_godzin, ects, numer_semestru, grupy.nazwa from plan_zajec
         ///left join przedmioty on przedmioty.id_przedmiotu=plan_zajec.id_przedmiotu
         ///left join przedmiot_informacje on przedmioty.id_informacji_przedmiotu=przedmiot_informacje.id_informacji_przedmiotu

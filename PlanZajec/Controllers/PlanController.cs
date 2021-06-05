@@ -42,5 +42,12 @@ namespace PlanZajec.Controllers
         {
             return (new PlanService()).WypelnijDaneComboBox(0, filtry.KodPlanu);
         }
+
+        [Route("konwertuj")]
+        [HttpPost]
+        public bool Konwertuj([FromBody] ImportModel import)
+        {
+            return (new ExcelService()).Zapisz_w_bazie(import.NazwaPliku, import.NumerSemestru);
+        }
     }
 }
