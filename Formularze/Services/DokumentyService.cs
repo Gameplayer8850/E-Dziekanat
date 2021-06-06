@@ -48,7 +48,7 @@ namespace Formularze.Services
                 {
                     Content = new ByteArrayContent(File.ReadAllBytes(dt.Rows[0][4].ToString()))
                 };
-                result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
                 {
                     FileName = dt.Rows[0][1].ToString()
                 };

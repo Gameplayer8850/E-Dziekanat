@@ -120,7 +120,7 @@ namespace Kokpit.Services
                 else return new InformacjaZwrotnaKodModel
                 {
                     Poprawnosc = false,
-                    Tresc = "Nie ustawiono daty wykorzystania kodu"
+                    Tresc = "Kod wygasł"
                 };
             }
             else return new InformacjaZwrotnaKodModel
