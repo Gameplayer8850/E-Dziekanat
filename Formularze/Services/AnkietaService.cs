@@ -28,7 +28,11 @@ namespace Formularze.Services
             if (dt != null && dt.Rows.Count > 0)
             {
                 foreach (DataRow dr in dt.Rows)
-                    lista.Add(Zwroc_Obiekt_Ankiety(dr));
+                {
+                    AnkietaModel ankieta = Zwroc_Obiekt_Ankiety(dr);
+                    ankieta.IdWyboru = Zwroc_twoj_glos(id_uzytkownika, ankieta.IdAnkiety);
+                    lista.Add(ankieta);
+                }
             }
             else lista = null;
 
