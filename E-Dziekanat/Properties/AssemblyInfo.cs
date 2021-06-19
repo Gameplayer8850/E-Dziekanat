@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// Informacje ogólne o zestawie zależą od poniższego
+// Informacje ogólne o zestawie zależą od poniższego 
 // zestawu atrybutów. Zmień wartości tych atrybutów, aby zmodyfikować informacje
 // związane z zestawem.
 [assembly: AssemblyTitle("E_Dziekanat")]
@@ -14,22 +14,22 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// Ustawienie dla atrybutu ComVisible wartości false powoduje, że typy w tym zestawie stają się niewidoczne
-// dla składników COM. Jeśli musisz uzyskiwać dostęp do typu w tym zestawie
+// Ustawienie dla atrybutu ComVisible wartości false powoduje, że typy w tym zestawie stają się niewidoczne 
+// dla składników COM. Jeśli musisz uzyskiwać dostęp do typu w tym zestawie 
 // z modelu COM, ustaw dla atrybutu ComVisible tego typu wartość true.
 [assembly: ComVisible(false)]
 
-// Poniższy identyfikator GUID odpowiada atrybutowi ID biblioteki typów typelib, jeśli ten projekt jest uwidaczniany w modelu COM
-[assembly: Guid("a9872f63-7e1d-4f1a-9eda-8c40c07d8414")]
+// Poniższy identyfikator GUID odpowiada atrybutowi ID biblioteki typów, jeśli ten projekt jest uwidaczniany w modelu COM
+[assembly: Guid("f1d510fb-18eb-4ae9-877b-3b85765e0157")]
 
 // Informacje o wersji zestawu obejmują następujące cztery wartości:
 //
 //      Wersja główna
-//      Wersja pomocnicza
+//      Wersja pomocnicza 
 //      Numer kompilacji
 //      Poprawka
 //
-// Możesz określić wszystkie te wartości lub użyć wartości domyślnych numerów kompilacji i poprawki,
+// Możesz określić wszystkie te wartości lub użyć wartości domyślnych numerów poprawki i kompilacji, 
 // stosując znak „*”, jak pokazano poniżej:
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
